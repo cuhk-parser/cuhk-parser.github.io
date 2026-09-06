@@ -580,7 +580,7 @@ img {
 .hero-stats {
   margin: 30px 16px 0;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
 }
 
 .hero-stats > div {
@@ -1522,9 +1522,8 @@ footer p { margin: 0; }
   .scatter-lines { width: 100px; height: 20px; transform: rotate(90deg) scaleX(0.55); }
   .answer-pill { position: absolute; right: 22px; bottom: 24px; }
 
-  .hero-stats { margin-inline: 0; grid-template-columns: 1fr 1fr; }
-  .hero-stats > div:nth-child(2) { border-right: 0; }
-  .hero-stats > div:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
+  .hero-stats { margin-inline: 0; grid-template-columns: repeat(3, 1fr); }
+  .hero-stats > div { padding-inline: 8px; }
 
   .section { padding-block: 90px; }
   .section-heading { gap: 13px; }
