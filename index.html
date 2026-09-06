@@ -249,10 +249,20 @@
           </div>
         </div>
 
-        <p class="baseline-note">
-          <strong>Full-context</strong> directly feeds the question together with the entire
-          document into a single model call, without document chunking or an external memory.
-        </p>
+        <div class="baseline-note">
+          <span class="mini-label">BASELINE PARADIGMS</span>
+          <div class="baseline-grid">
+            <p>
+              <strong>Full-context</strong> directly feeds the question together with the entire
+              document into a single model call, without document chunking or an external memory.
+            </p>
+            <p>
+              <strong>MemAgent</strong> reads document chunks sequentially, repeatedly compressing
+              each chunk and the previous state into a fixed-length textual memory from which it
+              produces the final answer.
+            </p>
+          </div>
+        </div>
 
         <div class="results-grid">
           <article class="result-card lavender">

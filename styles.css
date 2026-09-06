@@ -874,12 +874,27 @@ blockquote {
 
 .baseline-note {
   margin: -18px 0 34px 68px;
-  padding: 12px 16px;
+  padding: 17px 19px 19px;
   color: var(--ink-soft);
   border-left: 3px solid #b599d9;
   border-radius: 0 10px 10px 0;
   background: #f8f4fc;
   font-size: 13px;
+}
+
+.baseline-note > .mini-label {
+  margin-bottom: 12px;
+  display: block;
+}
+
+.baseline-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+}
+
+.baseline-grid p {
+  margin: 0;
 }
 
 .baseline-note strong {
@@ -1742,6 +1757,7 @@ footer p { margin: 0; }
   .equation-divider { display: block; width: fit-content; padding: 3px 0; transform: rotate(90deg); }
   .result-lead { margin-left: 0; align-items: flex-start; flex-direction: column; }
   .baseline-note { margin-left: 0; }
+  .baseline-grid { grid-template-columns: 1fr; gap: 12px; }
   .dataset-tags { justify-content: flex-start; }
   .length-chart { padding: 26px 18px; grid-template-columns: 1fr; }
   .chart-legend { max-width: 260px; grid-template-columns: 1fr; }
