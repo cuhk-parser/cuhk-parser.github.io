@@ -1,0 +1,448 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="PARSER: Read in Parallel, Reason in Depth for Long-Context LLM Agents."
+    />
+    <meta name="theme-color" content="#f3edff" />
+    <title>PARSER — Long-Context LLM Agents</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="ambient ambient-one" aria-hidden="true"></div>
+    <div class="ambient ambient-two" aria-hidden="true"></div>
+
+    <header class="site-header">
+      <nav class="nav shell" aria-label="Primary navigation">
+        <a class="brand" href="#top" aria-label="PARSER home">
+          <span class="brand-mark">P</span>
+          <span>PARSER</span>
+        </a>
+        <button class="menu-toggle" type="button" aria-expanded="false" aria-label="Toggle menu">
+          <span></span><span></span>
+        </button>
+        <div class="nav-links">
+          <a href="#introduction">Introduction</a>
+          <a href="#method">Method</a>
+          <a href="#experiments">Experiments</a>
+          <a href="#engineering">Engineering</a>
+          <a href="#citation">Citation</a>
+        </div>
+      </nav>
+    </header>
+
+    <main id="top">
+      <section class="hero shell">
+        <div class="eyebrow fade-in">
+          <span class="eyebrow-dot"></span>
+          Parallel Multi-Agent Long-Context Reasoning
+        </div>
+        <h1 class="fade-in delay-1">
+          <span class="parser-word">PARSER</span>
+          <span class="title-rest">Read in Parallel, Reason in Depth for Long-Context LLM Agents</span>
+        </h1>
+        <p class="hero-thesis fade-in delay-2">
+          The order of a document should not dictate the order of reasoning.
+        </p>
+
+        <div class="authors fade-in delay-2">
+          <a href="./">Kun Li<sup>*</sup></a>
+          <a href="./">Zexuan Qiu<sup>*</sup></a>
+          <a href="./">Tianhua Zhang<sup>*</sup></a>
+          <a href="./">Irwin King</a>
+          <a href="./">Helen Meng</a>
+        </div>
+        <p class="affiliation fade-in delay-2">
+          The Chinese University of Hong Kong
+          <span><sup>*</sup>Core contributors</span>
+        </p>
+
+        <div class="resource-links fade-in delay-3">
+          <a class="resource-button" href="./">
+            <span class="resource-icon" aria-hidden="true">▧</span>
+            <span><strong>Paper</strong><small>论文</small></span>
+          </a>
+          <a class="resource-button" href="./">
+            <span class="resource-icon code-icon" aria-hidden="true">&lt;/&gt;</span>
+            <span><strong>Code</strong><small>代码</small></span>
+          </a>
+          <a class="resource-button" href="./">
+            <span class="resource-icon" aria-hidden="true">◫</span>
+            <span><strong>Dataset</strong><small>数据</small></span>
+          </a>
+          <a class="resource-button" href="./">
+            <span class="resource-icon" aria-hidden="true">◉</span>
+            <span><strong>Model</strong><small>模型</small></span>
+          </a>
+        </div>
+
+        <div class="hero-visual fade-in delay-3" aria-label="PARSER workflow overview">
+          <div class="document-stack">
+            <span></span><span></span><span></span><span></span>
+            <p>Long document</p>
+          </div>
+          <div class="flow-arrow"><span>split</span>→</div>
+          <div class="agent-bank">
+            <div class="agent-card"><i></i><b>Reader 1</b><small>chunk 1</small></div>
+            <div class="agent-card"><i></i><b>Reader 2</b><small>chunk 2</small></div>
+            <div class="agent-card"><i></i><b>Reader T</b><small>chunk T</small></div>
+          </div>
+          <div class="scatter-lines">
+            <span></span><span></span><span></span>
+          </div>
+          <div class="lead-orbit">
+            <div class="orbit-ring"></div>
+            <div class="lead-agent">
+              <span>✦</span>
+              <b>Lead Agent</b>
+              <small>reason in depth</small>
+            </div>
+            <span class="orbit-label scatter">scatter</span>
+            <span class="orbit-label gather">gather</span>
+          </div>
+          <div class="answer-pill">Answer <span>✓</span></div>
+        </div>
+
+        <div class="hero-stats">
+          <div><strong>896K</strong><span>evaluation context</span></div>
+          <div><strong>+12.0</strong><span>points at 896K</span></div>
+          <div><strong>11×</strong><span>lower latency</span></div>
+          <div><strong>4B</strong><span>compact backbone</span></div>
+        </div>
+      </section>
+
+      <section id="introduction" class="section shell">
+        <div class="section-heading">
+          <span class="section-number">01</span>
+          <div>
+            <p class="kicker">Introduction <span>引言</span></p>
+            <h2>Decouple reading from reasoning.</h2>
+          </div>
+        </div>
+
+        <div class="intro-copy prose">
+          <p>
+            Sequential memory agents read long documents chunk by chunk while maintaining a compact
+            memory state. This couples document traversal to reasoning depth, making accuracy
+            sensitive to where evidence appears and forcing latency to grow with document length.
+          </p>
+          <p>
+            <strong>PARSER</strong> turns document length from sequential depth into parallel width.
+            Lightweight subagents read every chunk concurrently, while a lead agent iteratively
+            asks focused questions, gathers evidence, and reasons across only the rounds the problem
+            actually requires.
+          </p>
+        </div>
+
+        <div class="breakthrough-grid">
+          <article class="feature-card">
+            <span class="feature-number">1</span>
+            <div class="feature-symbol">⇶</div>
+            <h3>Parallel reading</h3>
+            <p>Every document chunk is inspected concurrently and symmetrically by a dedicated reader.</p>
+          </article>
+          <article class="feature-card">
+            <span class="feature-number">2</span>
+            <div class="feature-symbol">↻</div>
+            <h3>Iterative reasoning</h3>
+            <p>The lead agent refines queries across scatter–gather rounds as new evidence emerges.</p>
+          </article>
+          <article class="feature-card">
+            <span class="feature-number">3</span>
+            <div class="feature-symbol">✦</div>
+            <h3>RL-trained coordination</h3>
+            <p>Only the lead policy is optimized with verifiable rewards; lightweight readers stay frozen.</p>
+          </article>
+        </div>
+
+        <blockquote>
+          “Read the document in parallel. Reserve sequential computation for reasoning.”
+        </blockquote>
+      </section>
+
+      <section id="method" class="section section-tint">
+        <div class="shell">
+          <div class="section-heading">
+            <span class="section-number">02</span>
+            <div>
+              <p class="kicker">Method <span>方法介绍</span></p>
+              <h2>Parallel Reading, Sequential Reasoning</h2>
+            </div>
+          </div>
+
+          <figure class="paper-figure workflow-figure">
+            <img
+              src="./assets/workflow.png"
+              alt="Comparison between sequential memory agents and PARSER's parallel reading workflow"
+            />
+            <figcaption>
+              PARSER replaces <em>T</em> dependent memory updates with <em>K</em> reasoning rounds,
+              where all chunk-level reads run in parallel.
+            </figcaption>
+          </figure>
+
+          <div class="method-grid">
+            <article>
+              <div class="mini-label">01 / READ</div>
+              <h3>Parallel chunk readers</h3>
+              <p>
+                Each frozen subagent is bound to one short chunk. Given a focused query, it returns
+                grounded evidence or abstains. All readers execute concurrently.
+              </p>
+            </article>
+            <article>
+              <div class="mini-label">02 / REASON</div>
+              <h3>Question-driven lead agent</h3>
+              <p>
+                The lead agent sees the question and gathered findings—but no raw document tokens.
+                It decides what to ask next and when to answer.
+              </p>
+            </article>
+            <article>
+              <div class="mini-label">03 / ADAPT</div>
+              <h3>Multi-round scatter–gather</h3>
+              <p>
+                Every round re-reads all chunks under an evidence-conditioned query, resolving
+                cross-chunk dependencies without recurrent compression.
+              </p>
+            </article>
+            <article>
+              <div class="mini-label">04 / OPTIMIZE</div>
+              <h3>Agentic reinforcement learning</h3>
+              <p>
+                GRPO with exact-match rewards teaches the lead agent to decompose questions,
+                coordinate readers, and commit to accurate answers.
+              </p>
+            </article>
+          </div>
+
+          <div class="equation-card">
+            <span class="equation-label">Critical path</span>
+            <div class="equation">
+              <span class="muted">Sequential memory:</span> O(T)
+              <span class="equation-divider">→</span>
+              <span class="gradient-text">PARSER: O(K), where K ≪ T</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="experiments" class="section shell">
+        <div class="section-heading">
+          <span class="section-number">03</span>
+          <div>
+            <p class="kicker">Experiments <span>实验分析</span></p>
+            <h2>Stable accuracy at extreme length.</h2>
+          </div>
+        </div>
+
+        <div class="result-lead">
+          <p>
+            Across HotpotQA and 2WikiMultiHopQA from 7K to 896K tokens, PARSER remains nearly
+            length-invariant while full-context and sequential-memory methods degrade.
+          </p>
+          <div class="dataset-tags">
+            <span>HotpotQA · ID</span>
+            <span>2WikiMultiHopQA · OOD</span>
+            <span>Sub_EM · 3 runs</span>
+          </div>
+        </div>
+
+        <div class="results-grid">
+          <article class="result-card lavender">
+            <p>HotpotQA · 4B</p>
+            <strong>84.6%</strong>
+            <span>average accuracy</span>
+            <small>+5.7 points over the strongest sequential baseline</small>
+          </article>
+          <article class="result-card lilac">
+            <p>HotpotQA · 9B</p>
+            <strong>86.8%</strong>
+            <span>average accuracy</span>
+            <small>+6.3 points over DeepSeek-V4-Pro</small>
+          </article>
+          <article class="result-card violet">
+            <p>896K tokens · 4B</p>
+            <strong>+12.0</strong>
+            <span>percentage points</span>
+            <small>over the strongest sequential memory baseline</small>
+          </article>
+        </div>
+
+        <div class="length-chart" role="img" aria-label="PARSER accuracy remains stable as context grows">
+          <div class="chart-copy">
+            <span class="mini-label">HOTPOTQA · QWEN3.5-4B</span>
+            <h3>Length-invariant performance</h3>
+            <div class="chart-legend">
+              <span><i class="parser-key"></i>PARSER</span>
+              <span><i class="memory-key"></i>MemAgent</span>
+              <span><i class="full-key"></i>Full-context</span>
+            </div>
+          </div>
+          <div class="chart-area">
+            <div class="y-label top">90</div><div class="y-label mid">60</div><div class="y-label bottom">30</div>
+            <div class="grid-line line-top"></div><div class="grid-line line-mid"></div><div class="grid-line line-bottom"></div>
+            <svg viewBox="0 0 700 230" preserveAspectRatio="none" aria-hidden="true">
+              <defs>
+                <linearGradient id="parserLine" x1="0" x2="1">
+                  <stop offset="0%" stop-color="#b694ec" />
+                  <stop offset="100%" stop-color="#7651bc" />
+                </linearGradient>
+              </defs>
+              <path class="chart-line full" d="M15,52 L110,52 L205,64 L300,57 L395,82 L490,108 L585,139 L685,194" />
+              <path class="chart-line memory" d="M15,34 L110,33 L205,25 L300,45 L395,45 L490,39 L585,59 L685,63" />
+              <path class="chart-line parser" d="M15,19 L110,23 L205,26 L300,19 L395,20 L490,27 L585,27 L685,20" />
+            </svg>
+            <div class="x-axis">
+              <span>7K</span><span>14K</span><span>28K</span><span>56K</span>
+              <span>112K</span><span>224K</span><span>448K</span><span>896K</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection-heading">
+          <span>Controlled analysis</span>
+          <h3>Robust to evidence position, order, and distance.</h3>
+        </div>
+        <figure class="paper-figure">
+          <img
+            src="./assets/evidence-controls.png"
+            alt="PARSER robustness under controlled evidence position, order, and distance"
+          />
+          <figcaption>
+            Sequential methods exhibit large accuracy swings as evidence placement changes. PARSER
+            remains stable because every chunk can be revisited under evolving queries.
+          </figcaption>
+        </figure>
+      </section>
+
+      <section id="engineering" class="section engineering-section">
+        <div class="shell">
+          <div class="section-heading">
+            <span class="section-number">04</span>
+            <div>
+              <p class="kicker">Engineering Design <span>工程设计</span></p>
+              <h2>Fully Asynchronous RL Training</h2>
+            </div>
+          </div>
+
+          <div class="engineering-layout">
+            <div class="pipeline">
+              <div class="pipeline-node rollout-node">
+                <span class="node-icon">↯</span>
+                <div><strong>SGLang Rollouts</strong><small>4 × H100 · continuous generation</small></div>
+              </div>
+              <div class="pipeline-flow">
+                <span>trajectories</span><i></i><span>parameters</span>
+              </div>
+              <div class="pipeline-node trainer-node">
+                <span class="node-icon">∇</span>
+                <div><strong>Megatron Trainer</strong><small>2 × H100 · policy updates</small></div>
+              </div>
+              <div class="subagent-cluster">
+                <span class="cluster-label">SGLang Model Gateway</span>
+                <div class="cluster-gpus">
+                  <i></i><i></i><i></i><i></i><i></i>
+                  <i></i><i></i><i></i><i></i><i></i>
+                </div>
+                <p>10 × H100 serving frozen subagents</p>
+              </div>
+            </div>
+
+            <div class="engineering-copy">
+              <p>
+                Policy updating and rollout generation run continuously on separate GPU pools.
+                Subagents keep serving requests while the lead policy is updated, eliminating idle
+                time between training stages.
+              </p>
+              <ul class="check-list">
+                <li><span>✓</span><div><strong>Decoupled resources</strong>Rollout and actor training proceed asynchronously.</div></li>
+                <li><span>✓</span><div><strong>Cache-aware routing</strong>SGLang Radix Cache reuses fixed chunk prefixes across rounds.</div></li>
+                <li><span>✓</span><div><strong>Bounded staleness</strong>Periodic synchronization keeps rollout policies close to the actor.</div></li>
+                <li><span>✓</span><div><strong>Production stack</strong>VERL, Megatron, SGLang, and a persistent model gateway.</div></li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="latency-callout">
+            <figure>
+              <img src="./assets/latency-steps.png" alt="Sequential inference steps across context lengths" />
+            </figure>
+            <div>
+              <span class="mini-label">INFERENCE EFFICIENCY</span>
+              <strong>11×</strong>
+              <h3>lower latency at 896K tokens</h3>
+              <p>
+                PARSER holds reasoning depth near four steps as documents grow, while MemAgent's
+                dependent updates climb to more than 180.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="conclusion" class="section shell">
+        <div class="section-heading">
+          <span class="section-number">05</span>
+          <div>
+            <p class="kicker">Conclusion <span>总结</span></p>
+            <h2>Reason by the question, not by the document order.</h2>
+          </div>
+        </div>
+        <div class="conclusion-grid">
+          <p>
+            PARSER shows that effective long-context reasoning does not require every reasoning step
+            to carry the document forward. By separating local reading from global reasoning, it
+            remains accurate across extreme lengths and robust to where evidence is placed.
+          </p>
+          <p>
+            The resulting architecture is simple to optimize: freeze lightweight readers, train one
+            lead policy with verifiable rewards, and scale document coverage through parallel width.
+          </p>
+        </div>
+      </section>
+
+      <section id="citation" class="section citation-section">
+        <div class="shell">
+          <div class="section-heading">
+            <span class="section-number">06</span>
+            <div>
+              <p class="kicker">Citation <span>引用</span></p>
+              <h2>Cite PARSER</h2>
+            </div>
+          </div>
+          <div class="citation-box">
+            <pre><code id="bibtex">@article{li2026parser,
+  title   = {PARSER: Read in Parallel, Reason in Depth for Long-Context LLM Agents},
+  author  = {Li, Kun and Qiu, Zexuan and Zhang, Tianhua and King, Irwin and Meng, Helen},
+  journal = {arXiv preprint},
+  year    = {2026}
+}</code></pre>
+            <button id="copy-citation" type="button" aria-label="Copy BibTeX citation">
+              <span>Copy BibTeX</span>
+            </button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="shell footer-content">
+        <div class="brand"><span class="brand-mark">P</span><span>PARSER</span></div>
+        <p>Read in parallel. Reason in depth.</p>
+        <p>© 2026 PARSER Authors</p>
+      </div>
+    </footer>
+
+    <script src="./script.js"></script>
+  </body>
+</html>
