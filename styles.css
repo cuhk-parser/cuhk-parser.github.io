@@ -940,6 +940,19 @@ blockquote {
   gap: 8px;
 }
 
+.chart-legend b {
+  color: var(--ink-soft);
+  font-weight: 600;
+}
+
+.chart-legend small {
+  margin-left: auto;
+  color: #8d72b2;
+  font-size: 9px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
 .chart-legend i {
   width: 17px;
   height: 3px;
@@ -1501,7 +1514,7 @@ footer p { margin: 0; }
   .result-lead { margin-left: 0; align-items: flex-start; flex-direction: column; }
   .dataset-tags { justify-content: flex-start; }
   .length-chart { padding: 26px 18px; grid-template-columns: 1fr; }
-  .chart-legend { grid-template-columns: repeat(3, auto); }
+  .chart-legend { max-width: 260px; grid-template-columns: 1fr; }
   .chart-area { margin-top: 5px; }
 
   .pipeline { padding: 22px; }
