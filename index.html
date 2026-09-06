@@ -147,6 +147,22 @@
             </div>
           </div>
 
+          <div class="method-overview">
+            <p>
+              Given a question <em>q</em> and a long document <em>D</em>, PARSER first divides
+              <em>D</em> into <em>T</em> fixed-size chunks. Multi-hop evidence is usually sparse and
+              distributed across these chunks, so the central challenge is not merely fitting the
+              document into a context window, but locating and composing the right evidence in the
+              right reasoning order.
+            </p>
+            <p>
+              Sequential memory agents repeatedly compress each new chunk into a textual memory.
+              PARSER removes this document-ordered dependency: it assigns one reader to every chunk
+              and lets a lead agent build a question-driven reasoning chain through iterative
+              scatter–gather rounds.
+            </p>
+          </div>
+
           <figure class="paper-figure workflow-figure">
             <img
               src="./assets/workflow.png"
@@ -163,32 +179,39 @@
               <div class="mini-label">01 / READ</div>
               <h3>Parallel chunk readers</h3>
               <p>
-                Each frozen subagent is bound to one short chunk. Given a focused query, it returns
-                grounded evidence or abstains. All readers execute concurrently.
+                Each frozen subagent is permanently bound to one short chunk. When it receives a
+                focused query, it inspects only that chunk and returns a grounded finding or
+                abstains. All <em>T</em> readers execute concurrently, giving every chunk symmetric
+                access regardless of its position in the document.
               </p>
             </article>
             <article>
               <div class="mini-label">02 / REASON</div>
               <h3>Question-driven lead agent</h3>
               <p>
-                The lead agent sees the question and gathered findings—but no raw document tokens.
-                It decides what to ask next and when to answer.
+                The lead agent sees the original question and previously gathered findings, but no
+                raw document tokens. In a ReAct-style loop, it decides whether to issue one or more
+                new queries or commit to a final answer.
               </p>
             </article>
             <article>
               <div class="mini-label">03 / ADAPT</div>
               <h3>Multi-round scatter–gather</h3>
               <p>
-                Every round re-reads all chunks under an evidence-conditioned query, resolving
-                cross-chunk dependencies without recurrent compression.
+                At round <em>k</em>, focused queries are scattered to all readers and non-empty
+                findings are gathered into the lead agent's history. Those findings condition round
+                <em>k + 1</em>, allowing later hops to be discovered without recurrent compression
+                or irreversible information loss.
               </p>
             </article>
             <article>
               <div class="mini-label">04 / OPTIMIZE</div>
               <h3>Agentic reinforcement learning</h3>
               <p>
-                GRPO with exact-match rewards teaches the lead agent to decompose questions,
-                coordinate readers, and commit to accurate answers.
+                Only the lead policy is optimized; all readers remain frozen. GRPO uses a binary
+                exact-match outcome reward to teach query decomposition, reader coordination, and
+                answer timing. Gathered observation tokens are masked so gradients apply only to
+                lead-agent decisions.
               </p>
             </article>
           </div>
@@ -210,6 +233,53 @@
           <div>
             <p class="kicker">Experiments</p>
             <h2>Stable accuracy at extreme length.</h2>
+          </div>
+        </div>
+
+        <div class="experiment-setup">
+          <div class="setup-heading">
+            <span class="mini-label">EXPERIMENTAL SETUP</span>
+            <h3>Training short, evaluating up to 896K tokens.</h3>
+            <p>
+              The evaluation isolates both length extrapolation and out-of-distribution
+              generalization under a consistent long-context QA protocol.
+            </p>
+          </div>
+          <div class="setup-grid">
+            <article>
+              <span>Data</span>
+              <h4>32,768 training samples</h4>
+              <p>
+                HotpotQA questions are packed with distractors into 200-paragraph contexts of about
+                28K tokens. Evaluation uses HotpotQA in distribution and 2WikiMultiHopQA out of
+                distribution.
+              </p>
+            </article>
+            <article>
+              <span>Models</span>
+              <h4>4B and 9B lead agents</h4>
+              <p>
+                Qwen3.5-4B and Qwen3.5-9B serve as lead backbones. Both use frozen Qwen3.5-4B
+                subagents, testing whether stronger global reasoning can reuse the same lightweight
+                readers.
+              </p>
+            </article>
+            <article>
+              <span>Agent configuration</span>
+              <h4>Adaptive multi-round search</h4>
+              <p>
+                Training uses 512-token chunks and at most 9 turns. At inference, chunks increase to
+                4,096 tokens and the budget to 12 turns; each subagent may return up to 512 tokens.
+              </p>
+            </article>
+            <article>
+              <span>Evaluation protocol</span>
+              <h4>7K–896K token contexts</h4>
+              <p>
+                Baselines include full-context Qwen3.5 and DeepSeek-V4-Pro, plus MemAgent and
+                ReMemR1. We report Sub_EM averaged over three runs across eight document lengths.
+              </p>
+            </article>
           </div>
         </div>
 
