@@ -841,6 +841,11 @@ blockquote {
   font-size: 17px;
 }
 
+.experiment-index {
+  margin-bottom: 12px;
+  display: block;
+}
+
 .dataset-tags {
   display: flex;
   flex-wrap: wrap;
@@ -1257,6 +1262,21 @@ blockquote {
   margin: 0;
   color: #a99db3;
   font-size: 12px;
+}
+
+.experiment-latency {
+  margin-top: 0;
+  border-color: var(--line);
+  background: linear-gradient(145deg, #f8f3ff, #eadcfb);
+  box-shadow: 0 18px 55px rgba(76, 44, 128, 0.08);
+}
+
+.experiment-latency h3 {
+  color: var(--ink);
+}
+
+.experiment-latency p {
+  color: var(--ink-soft);
 }
 
 .conclusion-grid {

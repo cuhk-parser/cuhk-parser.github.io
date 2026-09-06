@@ -85,33 +85,6 @@
           </a>
         </div>
 
-        <div class="hero-visual fade-in delay-3" aria-label="PARSER workflow overview">
-          <div class="document-stack">
-            <span></span><span></span><span></span><span></span>
-            <p>Long document</p>
-          </div>
-          <div class="flow-arrow"><span>split</span>→</div>
-          <div class="agent-bank">
-            <div class="agent-card"><i></i><b>Reader 1</b><small>chunk 1</small></div>
-            <div class="agent-card"><i></i><b>Reader 2</b><small>chunk 2</small></div>
-            <div class="agent-card"><i></i><b>Reader T</b><small>chunk T</small></div>
-          </div>
-          <div class="scatter-lines">
-            <span></span><span></span><span></span>
-          </div>
-          <div class="lead-orbit">
-            <div class="orbit-ring"></div>
-            <div class="lead-agent">
-              <span>✦</span>
-              <b>Lead Agent</b>
-              <small>reason in depth</small>
-            </div>
-            <span class="orbit-label scatter">scatter</span>
-            <span class="orbit-label gather">gather</span>
-          </div>
-          <div class="answer-pill">Answer <span>✓</span></div>
-        </div>
-
         <div class="hero-stats">
           <div><strong>896K</strong><span>evaluation context</span></div>
           <div><strong>+12.0</strong><span>points at 896K</span></div>
@@ -247,6 +220,7 @@
 
         <div class="result-lead">
           <p>
+            <span class="mini-label experiment-index">01 / MAIN RESULTS</span>
             Across HotpotQA and 2WikiMultiHopQA from 7K to 896K tokens, PARSER remains nearly
             length-invariant while full-context and sequential-memory methods degrade.
           </p>
@@ -310,7 +284,7 @@
         </div>
 
         <div class="subsection-heading">
-          <span>Controlled analysis</span>
+          <span>02 / Controlled analysis</span>
           <h3>Robust to evidence position, order, and distance.</h3>
         </div>
         <figure class="paper-figure">
@@ -323,6 +297,25 @@
             remains stable because every chunk can be revisited under evolving queries.
           </figcaption>
         </figure>
+
+        <div class="subsection-heading">
+          <span>03 / Inference efficiency</span>
+          <h3>Reasoning depth stays constant as context grows.</h3>
+        </div>
+        <div class="latency-callout experiment-latency">
+          <figure>
+            <img src="./assets/latency-steps.png" alt="Sequential inference steps across context lengths" />
+          </figure>
+          <div>
+            <span class="mini-label">INFERENCE EFFICIENCY</span>
+            <strong>11×</strong>
+            <h3>lower latency at 896K tokens</h3>
+            <p>
+              PARSER holds reasoning depth near four steps as documents grow, while MemAgent's
+              dependent updates climb to more than 180.
+            </p>
+          </div>
+        </div>
       </section>
 
       <section id="engineering" class="section engineering-section">
@@ -370,21 +363,6 @@
                 <li><span>✓</span><div><strong>Bounded staleness</strong>Periodic synchronization keeps rollout policies close to the actor.</div></li>
                 <li><span>✓</span><div><strong>Production stack</strong>VERL, Megatron, SGLang, and a persistent model gateway.</div></li>
               </ul>
-            </div>
-          </div>
-
-          <div class="latency-callout">
-            <figure>
-              <img src="./assets/latency-steps.png" alt="Sequential inference steps across context lengths" />
-            </figure>
-            <div>
-              <span class="mini-label">INFERENCE EFFICIENCY</span>
-              <strong>11×</strong>
-              <h3>lower latency at 896K tokens</h3>
-              <p>
-                PARSER holds reasoning depth near four steps as documents grow, while MemAgent's
-                dependent updates climb to more than 180.
-              </p>
             </div>
           </div>
         </div>
