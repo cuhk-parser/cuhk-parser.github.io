@@ -784,6 +784,12 @@ blockquote {
   font-weight: 700;
 }
 
+.method-overview strong,
+.workflow-figure figcaption strong {
+  color: var(--purple-deep);
+  font-weight: 700;
+}
+
 .method-grid {
   margin-top: 42px;
   display: grid;
@@ -1054,9 +1060,17 @@ blockquote {
   background: #eee9f2;
 }
 
-.line-top { top: 22px; }
-.line-mid { top: 111px; }
-.line-bottom { top: 201px; }
+.line-90 { top: 22px; }
+.line-80 { top: 52px; }
+.line-70 { top: 82px; }
+.line-60 { top: 111px; }
+.line-50 { top: 141px; }
+.line-40 { top: 171px; }
+.line-30 {
+  top: 201px;
+  height: 2px;
+  background: rgba(99, 63, 153, 0.23);
+}
 
 .y-label {
   position: absolute;
@@ -1065,9 +1079,17 @@ blockquote {
   font-size: 9px;
 }
 
-.y-label.top { top: 13px; }
-.y-label.mid { top: 102px; }
-.y-label.bottom { top: 192px; }
+.y-label.tick-90 { top: 13px; }
+.y-label.tick-80 { top: 43px; }
+.y-label.tick-70 { top: 73px; }
+.y-label.tick-60 { top: 102px; }
+.y-label.tick-50 { top: 132px; }
+.y-label.tick-40 { top: 162px; }
+.y-label.tick-30 {
+  top: 192px;
+  color: var(--purple-deep);
+  font-weight: 800;
+}
 
 .x-axis {
   position: absolute;
