@@ -159,8 +159,7 @@
               Sequential memory agents repeatedly compress each new chunk into a textual memory.
               <strong>PARSER instead turns document length into parallel width.</strong> At every
               round, all <em>T</em> chunk readers inspect their assigned text concurrently, while
-              only the <em>K</em> question-driven reasoning rounds remain sequential. This removes
-              document traversal from the critical path.
+              only the <em>K</em> question-driven reasoning rounds remain sequential.
             </p>
           </div>
 
@@ -335,8 +334,7 @@
               <p>
                 We sample 512 HotpotQA questions and construct 894K-token documents. All supporting
                 paragraphs are randomly placed inside one 10-percentile interval, sweeping from
-                0–10% through 90–100%. The distractor paragraphs and their positions are held fixed
-                across variants, so only absolute evidence location changes.
+                0–10% through 90–100%.
               </p>
             </div>
           </article>
@@ -359,8 +357,6 @@
               <p>
                 We sample 512 2WikiMultiHopQA questions requiring two evidence pieces. Their logical
                 order stays fixed while the number of intervening distractor paragraphs increases.
-                A fixed set of 1,600 paragraphs is also placed before the first evidence and after
-                the second, isolating relative distance from absolute position.
               </p>
             </div>
           </article>
@@ -394,7 +390,7 @@
             <p>
               <strong>Timing and ratio.</strong> For each length, we measure the wall-clock time
               required to finish the entire 128-sample subset and divide by 128, obtaining
-              amortized time per sample rather than isolated request latency. Each plotted point is
+              amortized time per sample. Each plotted point is
               then <em>MemAgent amortized time ÷ PARSER amortized time</em>; at 896K tokens,
               876.20s ÷ 78.22s gives an 11.2× speedup.
             </p>
