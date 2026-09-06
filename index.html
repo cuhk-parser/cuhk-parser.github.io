@@ -406,14 +406,14 @@
             <div class="pipeline">
               <div class="pipeline-node rollout-node">
                 <span class="node-icon">↯</span>
-                <div><strong>SGLang Rollouts</strong><small>4 × H100 · continuous generation</small></div>
+                <div><strong>SGLang Rollouts</strong><small>continuous generation</small></div>
               </div>
               <div class="pipeline-flow">
                 <span>trajectories</span><i></i><span>parameters</span>
               </div>
               <div class="pipeline-node trainer-node">
                 <span class="node-icon">∇</span>
-                <div><strong>Megatron Trainer</strong><small>2 × H100 · policy updates</small></div>
+                <div><strong>Megatron Trainer</strong><small>continuous policy updates</small></div>
               </div>
               <div class="subagent-cluster">
                 <span class="cluster-label">SGLang Model Gateway</span>
@@ -421,21 +421,19 @@
                   <i></i><i></i><i></i><i></i><i></i>
                   <i></i><i></i><i></i><i></i><i></i>
                 </div>
-                <p>10 × H100 serving frozen subagents</p>
+                <p>Serving frozen subagents continuously</p>
               </div>
             </div>
 
             <div class="engineering-copy">
               <p>
-                Policy updating and rollout generation run continuously on separate GPU pools.
+                Policy updating and rollout generation run continuously on separate compute pools.
                 Subagents keep serving requests while the lead policy is updated, eliminating idle
                 time between training stages.
               </p>
               <ul class="check-list">
                 <li><span>✓</span><div><strong>Decoupled resources</strong>Rollout and actor training proceed asynchronously.</div></li>
                 <li><span>✓</span><div><strong>Cache-aware routing</strong>SGLang Radix Cache reuses fixed chunk prefixes across rounds.</div></li>
-                <li><span>✓</span><div><strong>Bounded staleness</strong>Periodic synchronization keeps rollout policies close to the actor.</div></li>
-                <li><span>✓</span><div><strong>Production stack</strong>VERL, Megatron, SGLang, and a persistent model gateway.</div></li>
               </ul>
             </div>
           </div>
