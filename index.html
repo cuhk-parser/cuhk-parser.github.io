@@ -300,22 +300,96 @@
 
         <div class="subsection-heading">
           <span>03 / Inference efficiency</span>
-          <h3>Reasoning depth stays constant as context grows.</h3>
+          <h3>Latency advantage scales with context length.</h3>
         </div>
-        <div class="latency-callout experiment-latency">
-          <figure>
-            <img src="./assets/latency-steps.png" alt="Sequential inference steps across context lengths" />
-          </figure>
-          <div>
-            <span class="mini-label">INFERENCE EFFICIENCY</span>
-            <strong>11×</strong>
-            <h3>lower latency at 896K tokens</h3>
-            <p>
-              PARSER holds reasoning depth near four steps as documents grow, while MemAgent's
-              dependent updates climb to more than 180.
-            </p>
+        <figure class="speedup-chart-card">
+          <div class="speedup-chart-header">
+            <div>
+              <span class="mini-label">CONCURRENCY = 1</span>
+              <h4>Speedup over MemAgent</h4>
+            </div>
+            <p>Ratio = MemAgent latency ÷ PARSER latency</p>
           </div>
-        </div>
+          <svg
+            class="speedup-chart"
+            viewBox="0 0 800 350"
+            role="img"
+            aria-labelledby="speedup-title speedup-desc"
+          >
+            <title id="speedup-title">PARSER latency speedup over MemAgent by context length</title>
+            <desc id="speedup-desc">
+              The speedup increases from 2.0 times at 7K tokens to 11.2 times at 896K tokens.
+            </desc>
+            <defs>
+              <linearGradient id="speedup-line" x1="0" x2="1">
+                <stop offset="0%" stop-color="#b492e3" />
+                <stop offset="100%" stop-color="#6b43aa" />
+              </linearGradient>
+              <linearGradient id="speedup-area" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#a67bda" stop-opacity="0.26" />
+                <stop offset="100%" stop-color="#a67bda" stop-opacity="0" />
+              </linearGradient>
+            </defs>
+
+            <g class="speedup-grid">
+              <line x1="76" y1="38" x2="755" y2="38" />
+              <line x1="76" y1="97" x2="755" y2="97" />
+              <line x1="76" y1="156" x2="755" y2="156" />
+              <line x1="76" y1="215" x2="755" y2="215" />
+              <line x1="76" y1="274" x2="755" y2="274" />
+            </g>
+            <g class="speedup-y-labels">
+              <text x="61" y="42">12×</text>
+              <text x="61" y="101">9×</text>
+              <text x="61" y="160">6×</text>
+              <text x="61" y="219">3×</text>
+              <text x="61" y="278">0×</text>
+            </g>
+            <path
+              class="speedup-area"
+              d="M88 235 L181 220 L274 186 L367 142 L460 107 L553 79 L646 70 L739 54 L739 274 L88 274 Z"
+            />
+            <path
+              class="speedup-line"
+              d="M88 235 L181 220 L274 186 L367 142 L460 107 L553 79 L646 70 L739 54"
+            />
+            <g class="speedup-points">
+              <circle cx="88" cy="235" r="5" />
+              <circle cx="181" cy="220" r="5" />
+              <circle cx="274" cy="186" r="5" />
+              <circle cx="367" cy="142" r="5" />
+              <circle cx="460" cy="107" r="5" />
+              <circle cx="553" cy="79" r="5" />
+              <circle cx="646" cy="70" r="5" />
+              <circle cx="739" cy="54" r="6" />
+            </g>
+            <g class="speedup-values">
+              <text x="88" y="220">2.0×</text>
+              <text x="181" y="205">2.7×</text>
+              <text x="274" y="171">4.5×</text>
+              <text x="367" y="127">6.7×</text>
+              <text x="460" y="92">8.5×</text>
+              <text x="553" y="64">9.9×</text>
+              <text x="646" y="55">10.4×</text>
+              <text class="last-value" x="733" y="36">11.2×</text>
+            </g>
+            <g class="speedup-x-labels">
+              <text x="88" y="303">7K</text>
+              <text x="181" y="303">14K</text>
+              <text x="274" y="303">28K</text>
+              <text x="367" y="303">56K</text>
+              <text x="460" y="303">112K</text>
+              <text x="553" y="303">224K</text>
+              <text x="646" y="303">448K</text>
+              <text x="739" y="303">896K</text>
+              <text class="axis-title" x="415" y="334">Context length (tokens)</text>
+            </g>
+          </svg>
+          <figcaption>
+            At single-request concurrency, PARSER's wall-clock latency grows from 5.33s to 78.22s,
+            while MemAgent grows from 10.56s to 876.20s.
+          </figcaption>
+        </figure>
       </section>
 
       <section id="engineering" class="section engineering-section">
