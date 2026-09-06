@@ -263,14 +263,25 @@ img {
 }
 
 .affiliation {
-  margin: 9px 0 0;
-  color: var(--ink-soft);
-  font-size: 13px;
+  margin: 14px 0 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  color: var(--ink);
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.affiliation strong {
+  font: 700 20px/1.3 var(--display);
 }
 
 .affiliation span {
-  margin-left: 15px;
+  margin: 0;
   color: #8e839f;
+  font-size: 13px;
+  font-weight: 500;
 }
 
 .resource-links {
@@ -317,20 +328,10 @@ img {
   font-size: 10px;
 }
 
-.resource-button strong,
-.resource-button small {
-  display: block;
-  line-height: 1.25;
-}
-
 .resource-button strong {
+  display: block;
   font-size: 13px;
-}
-
-.resource-button small {
-  margin-top: 2px;
-  color: #94899f;
-  font-size: 10px;
+  line-height: 1.25;
 }
 
 .hero-visual {
@@ -1507,7 +1508,8 @@ footer p { margin: 0; }
   .hero { padding-top: 60px; }
   .hero h1 { letter-spacing: -0.03em; }
   .authors { gap-inline: 16px; }
-  .affiliation span { display: block; margin: 3px 0 0; }
+  .affiliation { font-size: 16px; }
+  .affiliation strong { font-size: 18px; }
   .resource-button { min-width: calc(50% - 6px); }
 
   .hero-visual {
