@@ -901,6 +901,107 @@ blockquote {
   color: var(--ink);
 }
 
+.results-table-card {
+  margin-bottom: 20px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: white;
+  box-shadow: 0 18px 55px rgba(76, 44, 128, 0.07);
+}
+
+.results-table-heading {
+  padding: 24px 27px 19px;
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 24px;
+  border-bottom: 1px solid var(--line);
+}
+
+.results-table-heading h3 {
+  margin: 10px 0 0;
+  font: 700 22px/1.25 var(--display);
+}
+
+.results-table-heading p,
+.results-table-note {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 10px;
+}
+
+.results-table-scroll {
+  overflow-x: auto;
+}
+
+.results-table-card table {
+  width: 100%;
+  min-width: 1080px;
+  border-collapse: collapse;
+  color: var(--ink-soft);
+  font-size: 10px;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.results-table-card th,
+.results-table-card td {
+  padding: 10px 11px;
+  text-align: center;
+  border-bottom: 1px solid rgba(102, 65, 159, 0.08);
+}
+
+.results-table-card thead th {
+  color: var(--ink);
+  background: #f8f4fd;
+  font: 700 10px/1.25 var(--display);
+}
+
+.results-table-card thead th span,
+.results-table-card thead th small {
+  display: block;
+}
+
+.results-table-card thead th small {
+  margin-top: 3px;
+  color: #92859f;
+  font-size: 8px;
+  font-weight: 600;
+}
+
+.results-table-card tbody th {
+  width: 135px;
+  color: var(--ink);
+  background: white;
+  font-weight: 700;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.results-table-card tbody td:nth-child(1),
+.results-table-card tbody td:nth-child(2) {
+  text-align: left;
+}
+
+.results-table-card tbody tr.group-start > * {
+  border-top: 2px solid rgba(104, 65, 162, 0.16);
+}
+
+.results-table-card tbody tr.parser-row td {
+  color: var(--purple-deep);
+  background: #eee4fb;
+}
+
+.results-table-card tbody tr.parser-row td:first-child {
+  box-shadow: inset 3px 0 0 #8158bc;
+}
+
+.results-table-note {
+  padding: 12px 27px 14px;
+  border-top: 1px solid var(--line);
+}
+
 .experiment-index {
   margin-bottom: 12px;
   display: block;
@@ -1758,6 +1859,7 @@ footer p { margin: 0; }
   .result-lead { margin-left: 0; align-items: flex-start; flex-direction: column; }
   .baseline-note { margin-left: 0; }
   .baseline-grid { grid-template-columns: 1fr; gap: 12px; }
+  .results-table-heading { align-items: flex-start; flex-direction: column; gap: 9px; }
   .dataset-tags { justify-content: flex-start; }
   .length-chart { padding: 26px 18px; grid-template-columns: 1fr; }
   .chart-legend { max-width: 260px; grid-template-columns: 1fr; }

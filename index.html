@@ -264,6 +264,109 @@
           </div>
         </div>
 
+        <div class="results-table-card">
+          <div class="results-table-heading">
+            <div>
+              <span class="mini-label">HOTPOTQA · IN-DISTRIBUTION</span>
+              <h3>Accuracy across context lengths</h3>
+            </div>
+            <p>Sub_EM (%) · average over 3 runs</p>
+          </div>
+          <div class="results-table-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th scope="col">Backbone</th>
+                  <th scope="col">Method</th>
+                  <th scope="col"><span>50</span><small>7K</small></th>
+                  <th scope="col"><span>100</span><small>14K</small></th>
+                  <th scope="col"><span>200</span><small>28K</small></th>
+                  <th scope="col"><span>400</span><small>56K</small></th>
+                  <th scope="col"><span>800</span><small>112K</small></th>
+                  <th scope="col"><span>1600</span><small>224K</small></th>
+                  <th scope="col"><span>3200</span><small>448K</small></th>
+                  <th scope="col"><span>6400</span><small>896K</small></th>
+                  <th scope="col">Avg.</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="rowgroup" rowspan="2">DeepSeek-V4-Pro</th>
+                  <td>Full-context (non-think)</td>
+                  <td>78.12</td><td>77.34</td><td>76.56</td><td>79.69</td>
+                  <td>77.34</td><td>75.78</td><td>73.44</td><td>62.50</td><td>75.10</td>
+                </tr>
+                <tr>
+                  <td>Full-context (think-max)</td>
+                  <td>82.03</td><td>82.81</td><td>80.47</td><td>80.47</td>
+                  <td>80.47</td><td>81.25</td><td>77.34</td><td>78.91</td><td>80.47</td>
+                </tr>
+                <tr class="group-start">
+                  <th scope="rowgroup" rowspan="5">Qwen3.5-4B</th>
+                  <td>Full-context (non-think)</td>
+                  <td>75.78</td><td>75.78</td><td>71.88</td><td>74.22</td>
+                  <td>67.97</td><td>61.72</td><td>53.13</td><td>34.38</td><td>64.36</td>
+                </tr>
+                <tr>
+                  <td>Full-context (think)</td>
+                  <td>80.47</td><td>78.91</td><td>78.12</td><td>76.56</td>
+                  <td>74.22</td><td>60.94</td><td>46.09</td><td>31.25</td><td>65.82</td>
+                </tr>
+                <tr>
+                  <td>MemAgent</td>
+                  <td>81.25</td><td>81.51</td><td>83.59</td><td>77.86</td>
+                  <td>77.86</td><td>79.69</td><td>73.96</td><td>72.92</td><td>78.58</td>
+                </tr>
+                <tr>
+                  <td>ReMemR1</td>
+                  <td>82.03</td><td>79.95</td><td>82.03</td><td>78.91</td>
+                  <td>77.86</td><td>79.95</td><td>77.08</td><td>73.44</td><td>78.91</td>
+                </tr>
+                <tr class="parser-row">
+                  <td><strong>PARSER</strong></td>
+                  <td><strong>85.68</strong></td><td><strong>84.64</strong></td>
+                  <td><strong>83.60</strong></td><td><strong>85.68</strong></td>
+                  <td><strong>85.42</strong></td><td><strong>83.07</strong></td>
+                  <td><strong>83.07</strong></td><td><strong>85.42</strong></td>
+                  <td><strong>84.57</strong></td>
+                </tr>
+                <tr class="group-start">
+                  <th scope="rowgroup" rowspan="5">Qwen3.5-9B</th>
+                  <td>Full-context (non-think)</td>
+                  <td>75.00</td><td>72.66</td><td>72.66</td><td>71.88</td>
+                  <td>70.31</td><td>65.62</td><td>58.59</td><td>47.66</td><td>66.80</td>
+                </tr>
+                <tr>
+                  <td>Full-context (think)</td>
+                  <td>77.34</td><td>74.22</td><td>78.91</td><td>76.56</td>
+                  <td>77.34</td><td>65.62</td><td>53.91</td><td>46.88</td><td>68.85</td>
+                </tr>
+                <tr>
+                  <td>MemAgent</td>
+                  <td>81.77</td><td>80.73</td><td>82.03</td><td>79.95</td>
+                  <td>79.95</td><td>81.25</td><td>79.69</td><td>75.00</td><td>80.05</td>
+                </tr>
+                <tr>
+                  <td>ReMemR1</td>
+                  <td>81.25</td><td>79.69</td><td>77.60</td><td>78.39</td>
+                  <td>78.13</td><td>78.13</td><td>77.86</td><td>76.04</td><td>78.39</td>
+                </tr>
+                <tr class="parser-row">
+                  <td><strong>PARSER</strong></td>
+                  <td><strong>86.72</strong></td><td><strong>88.80</strong></td>
+                  <td><strong>87.24</strong></td><td><strong>85.68</strong></td>
+                  <td><strong>86.46</strong></td><td><strong>86.72</strong></td>
+                  <td><strong>86.72</strong></td><td><strong>85.94</strong></td>
+                  <td><strong>86.79</strong></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="results-table-note">
+            Column headers show the number of paragraphs and the approximate total token length.
+          </p>
+        </div>
+
         <div class="results-grid">
           <article class="result-card lavender">
             <p>HotpotQA · 4B</p>
