@@ -1334,6 +1334,48 @@ blockquote {
   font-size: 9px;
 }
 
+.idle-highlight {
+  margin-bottom: 24px;
+  padding: 21px 23px;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(211, 178, 247, 0.3);
+  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(173, 124, 229, 0.24), rgba(105, 65, 160, 0.11));
+  box-shadow: 0 15px 40px rgba(13, 8, 22, 0.2);
+}
+
+.idle-highlight::after {
+  content: "";
+  width: 130px;
+  height: 130px;
+  position: absolute;
+  top: -76px;
+  right: -42px;
+  border-radius: 50%;
+  background: rgba(211, 177, 248, 0.14);
+}
+
+.idle-highlight span,
+.idle-highlight strong {
+  display: block;
+  position: relative;
+  z-index: 1;
+}
+
+.idle-highlight span {
+  color: #cba9f2;
+  font: 800 9px/1 var(--display);
+  letter-spacing: 0.13em;
+}
+
+.idle-highlight strong {
+  margin-top: 10px;
+  color: white;
+  font: 700 24px/1.25 var(--display);
+  letter-spacing: -0.025em;
+}
+
 .engineering-copy > p {
   margin: 0 0 35px;
   color: #c0b5ca;

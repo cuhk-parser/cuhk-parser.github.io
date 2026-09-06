@@ -299,9 +299,9 @@
                   <stop offset="100%" stop-color="#7651bc" />
                 </linearGradient>
               </defs>
-              <path class="chart-line full" d="M15,52 L110,52 L205,64 L300,57 L395,82 L490,108 L585,139 L685,194" />
-              <path class="chart-line memory" d="M15,34 L110,33 L205,25 L300,45 L395,45 L490,39 L585,59 L685,63" />
-              <path class="chart-line parser" d="M15,19 L110,23 L205,26 L300,19 L395,20 L490,27 L585,27 L685,20" />
+              <path class="chart-line full" d="M15,64.4 L110,64.4 L205,76.1 L300,69.1 L395,87.7 L490,106.4 L585,132 L685,187.6" />
+              <path class="chart-line memory" d="M15,48.1 L110,47.3 L205,41.1 L300,58.2 L395,58.2 L490,52.8 L585,69.8 L685,73" />
+              <path class="chart-line parser" d="M15,34.9 L110,38 L205,41.1 L300,34.9 L395,35.7 L490,42.7 L585,42.7 L685,35.7" />
             </svg>
             <div class="x-axis">
               <span>7K</span><span>14K</span><span>28K</span><span>56K</span>
@@ -379,19 +379,10 @@
               7K–896K tokens.
             </p>
             <p>
-              <strong>Timing.</strong> For each length, we measure the wall-clock time required to
-              finish the entire 128-sample subset and divide by 128. The resulting value is
-              amortized time per sample, rather than isolated request latency.
-            </p>
-            <p>
-              <strong>Serving.</strong> All methods are served with SGLang. Full-context and
-              MemAgent each use one serving accelerator; PARSER separates its lead agent and reader
-              bank across two accelerators. ReMemR1 is omitted because its callback retrieval adds
-              further latency on top of MemAgent.
-            </p>
-            <p>
-              <strong>Ratio.</strong> Each plotted point is
-              <em>MemAgent amortized time ÷ PARSER amortized time</em>. For example, at 896K tokens,
+              <strong>Timing and ratio.</strong> For each length, we measure the wall-clock time
+              required to finish the entire 128-sample subset and divide by 128, obtaining
+              amortized time per sample rather than isolated request latency. Each plotted point is
+              then <em>MemAgent amortized time ÷ PARSER amortized time</em>; at 896K tokens,
               876.20s ÷ 78.22s gives an 11.2× speedup.
             </p>
           </div>
@@ -520,10 +511,14 @@
             </div>
 
             <div class="engineering-copy">
+              <div class="idle-highlight">
+                <span>KEY SYSTEM BENEFIT</span>
+                <strong>Eliminating idle time of subagents</strong>
+              </div>
               <p>
                 Policy updating and rollout generation run continuously on separate compute pools.
-                Subagents keep serving requests while the lead policy is updated, eliminating idle
-                time between training stages.
+                While the lead policy is being updated, the subagent cluster keeps serving rollout
+                requests instead of waiting for the next synchronous training stage.
               </p>
               <ul class="check-list">
                 <li><span>✓</span><div><strong>Decoupled resources</strong>Rollout and actor training proceed asynchronously.</div></li>
