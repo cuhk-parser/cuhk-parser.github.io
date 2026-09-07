@@ -121,7 +121,7 @@
           <article class="feature-card">
             <span class="feature-number">2</span>
             <div class="feature-symbol">↻</div>
-            <h3>Iterative reasoning</h3>
+            <h3>In-depth reasoning</h3>
             <p>The lead agent refines queries across scatter–gather rounds as new evidence emerges.</p>
           </article>
           <article class="feature-card">
@@ -158,8 +158,8 @@
             <p>
               Sequential memory agents repeatedly compress each new chunk into a textual memory.
               <strong>PARSER instead turns document length into parallel width.</strong> At every
-              round, all <em>T</em> chunk readers inspect their assigned text concurrently, while
-              only the <em>K</em> question-driven reasoning rounds remain sequential.
+              round, all <em>T</em> subagents read their respective chunks concurrently, while
+              the lead agent keeps only the <em>K</em> question-driven reasoning rounds sequential.
             </p>
           </div>
 
@@ -286,6 +286,7 @@
                   <th scope="col"><span>1600</span><small>224K</small></th>
                   <th scope="col"><span>3200</span><small>448K</small></th>
                   <th scope="col"><span>6400</span><small>896K</small></th>
+                  <th scope="col" class="delta-col">Max δ<small>pp</small></th>
                   <th scope="col">Avg.</th>
                 </tr>
               </thead>
@@ -294,33 +295,39 @@
                   <th scope="rowgroup" rowspan="2">DeepSeek-V4-Pro</th>
                   <td>Full-context (non-think)</td>
                   <td>78.12</td><td>77.34</td><td>76.56</td><td>79.69</td>
-                  <td>77.34</td><td>75.78</td><td>73.44</td><td>62.50</td><td>75.10</td>
+                  <td>77.34</td><td>75.78</td><td>73.44</td><td>62.50</td>
+                  <td class="delta-col">17.19</td><td>75.10</td>
                 </tr>
                 <tr>
                   <td>Full-context (think-max)</td>
                   <td>82.03</td><td>82.81</td><td>80.47</td><td>80.47</td>
-                  <td>80.47</td><td>81.25</td><td>77.34</td><td>78.91</td><td>80.47</td>
+                  <td>80.47</td><td>81.25</td><td>77.34</td><td>78.91</td>
+                  <td class="delta-col">5.47</td><td>80.47</td>
                 </tr>
                 <tr class="group-start">
                   <th scope="rowgroup" rowspan="5">Qwen3.5-4B</th>
                   <td>Full-context (non-think)</td>
                   <td>75.78</td><td>75.78</td><td>71.88</td><td>74.22</td>
-                  <td>67.97</td><td>61.72</td><td>53.13</td><td>34.38</td><td>64.36</td>
+                  <td>67.97</td><td>61.72</td><td>53.13</td><td>34.38</td>
+                  <td class="delta-col">41.40</td><td>64.36</td>
                 </tr>
                 <tr>
                   <td>Full-context (think)</td>
                   <td>80.47</td><td>78.91</td><td>78.12</td><td>76.56</td>
-                  <td>74.22</td><td>60.94</td><td>46.09</td><td>31.25</td><td>65.82</td>
+                  <td>74.22</td><td>60.94</td><td>46.09</td><td>31.25</td>
+                  <td class="delta-col">49.22</td><td>65.82</td>
                 </tr>
                 <tr>
                   <td>MemAgent</td>
                   <td>81.25</td><td>81.51</td><td>83.59</td><td>77.86</td>
-                  <td>77.86</td><td>79.69</td><td>73.96</td><td>72.92</td><td>78.58</td>
+                  <td>77.86</td><td>79.69</td><td>73.96</td><td>72.92</td>
+                  <td class="delta-col">10.67</td><td>78.58</td>
                 </tr>
                 <tr>
                   <td>ReMemR1</td>
                   <td>82.03</td><td>79.95</td><td>82.03</td><td>78.91</td>
-                  <td>77.86</td><td>79.95</td><td>77.08</td><td>73.44</td><td>78.91</td>
+                  <td>77.86</td><td>79.95</td><td>77.08</td><td>73.44</td>
+                  <td class="delta-col">8.59</td><td>78.91</td>
                 </tr>
                 <tr class="parser-row">
                   <td><strong>PARSER</strong></td>
@@ -328,28 +335,33 @@
                   <td><strong>83.60</strong></td><td><strong>85.68</strong></td>
                   <td><strong>85.42</strong></td><td><strong>83.07</strong></td>
                   <td><strong>83.07</strong></td><td><strong>85.42</strong></td>
+                  <td class="delta-col"><strong>2.61</strong></td>
                   <td><strong>84.57</strong></td>
                 </tr>
                 <tr class="group-start">
                   <th scope="rowgroup" rowspan="5">Qwen3.5-9B</th>
                   <td>Full-context (non-think)</td>
                   <td>75.00</td><td>72.66</td><td>72.66</td><td>71.88</td>
-                  <td>70.31</td><td>65.62</td><td>58.59</td><td>47.66</td><td>66.80</td>
+                  <td>70.31</td><td>65.62</td><td>58.59</td><td>47.66</td>
+                  <td class="delta-col">27.34</td><td>66.80</td>
                 </tr>
                 <tr>
                   <td>Full-context (think)</td>
                   <td>77.34</td><td>74.22</td><td>78.91</td><td>76.56</td>
-                  <td>77.34</td><td>65.62</td><td>53.91</td><td>46.88</td><td>68.85</td>
+                  <td>77.34</td><td>65.62</td><td>53.91</td><td>46.88</td>
+                  <td class="delta-col">32.03</td><td>68.85</td>
                 </tr>
                 <tr>
                   <td>MemAgent</td>
                   <td>81.77</td><td>80.73</td><td>82.03</td><td>79.95</td>
-                  <td>79.95</td><td>81.25</td><td>79.69</td><td>75.00</td><td>80.05</td>
+                  <td>79.95</td><td>81.25</td><td>79.69</td><td>75.00</td>
+                  <td class="delta-col">7.03</td><td>80.05</td>
                 </tr>
                 <tr>
                   <td>ReMemR1</td>
                   <td>81.25</td><td>79.69</td><td>77.60</td><td>78.39</td>
-                  <td>78.13</td><td>78.13</td><td>77.86</td><td>76.04</td><td>78.39</td>
+                  <td>78.13</td><td>78.13</td><td>77.86</td><td>76.04</td>
+                  <td class="delta-col">5.21</td><td>78.39</td>
                 </tr>
                 <tr class="parser-row">
                   <td><strong>PARSER</strong></td>
@@ -357,6 +369,7 @@
                   <td><strong>87.24</strong></td><td><strong>85.68</strong></td>
                   <td><strong>86.46</strong></td><td><strong>86.72</strong></td>
                   <td><strong>86.72</strong></td><td><strong>85.94</strong></td>
+                  <td class="delta-col"><strong>3.12</strong></td>
                   <td><strong>86.79</strong></td>
                 </tr>
               </tbody>
@@ -364,6 +377,7 @@
           </div>
           <p class="results-table-note">
             Column headers show the number of paragraphs and the approximate total token length.
+            Max δ is the range (max − min) across the eight context lengths.
           </p>
         </div>
 
@@ -388,55 +402,46 @@
           </article>
         </div>
 
-        <div class="length-chart" role="img" aria-label="PARSER accuracy remains stable as context grows">
-          <div class="chart-copy">
-            <span class="mini-label">HOTPOTQA · QWEN3.5-4B</span>
-            <h3>Length-invariant performance</h3>
-            <div class="chart-legend">
-              <span>
-                <i class="parser-key"></i><b>PARSER</b>
-                <small class="fluctuation-badge">MAX FLUCTUATION <strong>2.6 pp</strong></small>
-              </span>
-              <span>
-                <i class="memory-key"></i><b>MemAgent</b>
-                <small class="fluctuation-badge">MAX FLUCTUATION <strong>10.7 pp</strong></small>
-              </span>
-              <span>
-                <i class="full-key"></i><b>Full-context</b>
-                <small class="fluctuation-badge">MAX FLUCTUATION <strong>41.4 pp</strong></small>
-              </span>
-            </div>
+        <div class="delta-showcase">
+          <div class="delta-showcase-copy">
+            <span class="mini-label">LENGTH STABILITY · HOTPOTQA</span>
+            <h3>Max δ stays inside 3 points</h3>
+            <p>
+              From 7K to 896K tokens, PARSER's accuracy range is only 2.61 pp on the 4B backbone
+              and 3.12 pp on 9B. Sequential memory and full-context methods swing by tens of
+              points as the document grows.
+            </p>
           </div>
-          <div class="chart-area">
-            <div class="y-label tick-90">90</div>
-            <div class="y-label tick-80">80</div>
-            <div class="y-label tick-70">70</div>
-            <div class="y-label tick-60">60</div>
-            <div class="y-label tick-50">50</div>
-            <div class="y-label tick-40">40</div>
-            <div class="y-label tick-30">30</div>
-            <div class="grid-line line-90"></div>
-            <div class="grid-line line-80"></div>
-            <div class="grid-line line-70"></div>
-            <div class="grid-line line-60"></div>
-            <div class="grid-line line-50"></div>
-            <div class="grid-line line-40"></div>
-            <div class="grid-line line-30"></div>
-            <svg viewBox="0 0 700 230" preserveAspectRatio="none" aria-hidden="true">
-              <defs>
-                <linearGradient id="parserLine" x1="0" x2="1">
-                  <stop offset="0%" stop-color="#b694ec" />
-                  <stop offset="100%" stop-color="#7651bc" />
-                </linearGradient>
-              </defs>
-              <path class="chart-line full" d="M15,64.4 L110,64.4 L205,76.1 L300,69.1 L395,87.7 L490,106.4 L585,132 L685,187.6" />
-              <path class="chart-line memory" d="M15,48.1 L110,47.3 L205,41.1 L300,58.2 L395,58.2 L490,52.8 L585,69.8 L685,73" />
-              <path class="chart-line parser" d="M15,34.9 L110,38 L205,41.1 L300,34.9 L395,35.7 L490,42.7 L585,42.7 L685,35.7" />
-            </svg>
-            <div class="x-axis">
-              <span>7K</span><span>14K</span><span>28K</span><span>56K</span>
-              <span>112K</span><span>224K</span><span>448K</span><span>896K</span>
+          <div class="delta-bars" role="img" aria-label="Maximum accuracy fluctuation by method on Qwen3.5-4B">
+            <div class="delta-bar parser-delta">
+              <div class="delta-bar-meta">
+                <b>PARSER</b>
+                <strong>2.61</strong>
+              </div>
+              <span style="width: 6.3%"></span>
             </div>
+            <div class="delta-bar">
+              <div class="delta-bar-meta">
+                <b>MemAgent</b>
+                <strong>10.67</strong>
+              </div>
+              <span style="width: 25.8%"></span>
+            </div>
+            <div class="delta-bar">
+              <div class="delta-bar-meta">
+                <b>ReMemR1</b>
+                <strong>8.59</strong>
+              </div>
+              <span style="width: 20.7%"></span>
+            </div>
+            <div class="delta-bar">
+              <div class="delta-bar-meta">
+                <b>Full-context</b>
+                <strong>41.40</strong>
+              </div>
+              <span style="width: 100%"></span>
+            </div>
+            <p>Max δ on Qwen3.5-4B, in percentage points. Full-context is the non-thinking variant.</p>
           </div>
         </div>
 
@@ -450,9 +455,13 @@
             <div>
               <h4>Evidence position</h4>
               <p>
-                We sample 512 HotpotQA questions and construct 894K-token documents. All supporting
-                paragraphs are randomly placed inside one 10-percentile interval, sweeping from
-                0–10% through 90–100%.
+                In 894K-token documents, all supporting paragraphs are placed at random inside one
+                10-percentile window, swept from 0–10% through 90–100%.
+              </p>
+              <p class="analysis-takeaway">
+                PARSER stays stable across all ten position bins. Sequential memory agents drop
+                when evidence sits in the middle of the document, where earlier findings are most
+                easily overwritten.
               </p>
             </div>
           </article>
@@ -461,10 +470,14 @@
             <div>
               <h4>Evidence order</h4>
               <p>
-                We select 512 two-hop bridge-comparison questions from 2WikiMultiHopQA. For each
-                question, two 894K-token documents contain exactly the same paragraphs and
-                distractor positions; the only difference is whether supporting paragraphs follow
-                or reverse their annotated logical dependency order.
+                Each of 512 two-hop bridge-comparison questions is paired with two 894K-token
+                documents that differ only in whether the supporting paragraphs follow or reverse
+                their annotated logical order.
+              </p>
+              <p class="analysis-takeaway">
+                PARSER holds accuracy when the supporting paragraphs are reversed. Sequential
+                memory agents degrade, because an early hop can be evicted before its relevance
+                becomes visible.
               </p>
             </div>
           </article>
@@ -473,8 +486,12 @@
             <div>
               <h4>Evidence distance</h4>
               <p>
-                We sample 512 2WikiMultiHopQA questions requiring two evidence pieces. Their logical
-                order stays fixed while the number of intervening distractor paragraphs increases.
+                For questions that need two evidence pieces, a varying number of distractor paragraphs are inserted between them.
+              </p>
+              <p class="analysis-takeaway">
+                PARSER remains flat as the gap between the two evidence pieces grows. Sequential
+                methods deteriorate, because the first finding must survive more memory updates
+                before the second hop arrives.
               </p>
             </div>
           </article>
@@ -514,94 +531,239 @@
             </p>
           </div>
         </div>
-        <figure class="speedup-chart-card">
-          <div class="speedup-chart-header">
-            <div>
-              <span class="mini-label">CONCURRENCY = 1</span>
-              <h4>Speedup over MemAgent</h4>
-            </div>
-            <p>Ratio = MemAgent latency ÷ PARSER latency</p>
-          </div>
-          <svg
-            class="speedup-chart"
-            viewBox="0 0 800 350"
-            role="img"
-            aria-labelledby="speedup-title speedup-desc"
-          >
-            <title id="speedup-title">PARSER latency speedup over MemAgent by context length</title>
-            <desc id="speedup-desc">
-              The speedup increases from 2.0 times at 7K tokens to 11.2 times at 896K tokens.
-            </desc>
-            <defs>
-              <linearGradient id="speedup-line" x1="0" x2="1">
-                <stop offset="0%" stop-color="#b492e3" />
-                <stop offset="100%" stop-color="#6b43aa" />
-              </linearGradient>
-              <linearGradient id="speedup-area" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stop-color="#a67bda" stop-opacity="0.26" />
-                <stop offset="100%" stop-color="#a67bda" stop-opacity="0" />
-              </linearGradient>
-            </defs>
 
-            <g class="speedup-grid">
-              <line x1="76" y1="38" x2="755" y2="38" />
-              <line x1="76" y1="97" x2="755" y2="97" />
-              <line x1="76" y1="156" x2="755" y2="156" />
-              <line x1="76" y1="215" x2="755" y2="215" />
-              <line x1="76" y1="274" x2="755" y2="274" />
-            </g>
-            <g class="speedup-y-labels">
-              <text x="61" y="42">12×</text>
-              <text x="61" y="101">9×</text>
-              <text x="61" y="160">6×</text>
-              <text x="61" y="219">3×</text>
-              <text x="61" y="278">0×</text>
-            </g>
-            <path
-              class="speedup-area"
-              d="M88 235 L181 220 L274 186 L367 142 L460 107 L553 79 L646 70 L739 54 L739 274 L88 274 Z"
-            />
-            <path
-              class="speedup-line"
-              d="M88 235 L181 220 L274 186 L367 142 L460 107 L553 79 L646 70 L739 54"
-            />
-            <g class="speedup-points">
-              <circle cx="88" cy="235" r="5" />
-              <circle cx="181" cy="220" r="5" />
-              <circle cx="274" cy="186" r="5" />
-              <circle cx="367" cy="142" r="5" />
-              <circle cx="460" cy="107" r="5" />
-              <circle cx="553" cy="79" r="5" />
-              <circle cx="646" cy="70" r="5" />
-              <circle cx="739" cy="54" r="6" />
-            </g>
-            <g class="speedup-values">
-              <text x="88" y="220">2.0×</text>
-              <text x="181" y="205">2.7×</text>
-              <text x="274" y="171">4.5×</text>
-              <text x="367" y="127">6.7×</text>
-              <text x="460" y="92">8.5×</text>
-              <text x="553" y="64">9.9×</text>
-              <text x="646" y="55">10.4×</text>
-              <text class="last-value" x="733" y="36">11.2×</text>
-            </g>
-            <g class="speedup-x-labels">
-              <text x="88" y="303">7K</text>
-              <text x="181" y="303">14K</text>
-              <text x="274" y="303">28K</text>
-              <text x="367" y="303">56K</text>
-              <text x="460" y="303">112K</text>
-              <text x="553" y="303">224K</text>
-              <text x="646" y="303">448K</text>
-              <text x="739" y="303">896K</text>
-              <text class="axis-title" x="415" y="334">Context length (tokens)</text>
-            </g>
-          </svg>
-          <figcaption>
-            At single-request concurrency, PARSER's wall-clock latency grows from 5.33s to 78.22s,
-            while MemAgent grows from 10.56s to 876.20s.
-          </figcaption>
-        </figure>
+        <div class="latency-pair-card">
+          <figure class="speedup-chart-card">
+            <div class="speedup-chart-header">
+              <div>
+                <span class="mini-label">CONCURRENCY = 1</span>
+                <h4>Speedup over MemAgent</h4>
+              </div>
+              <p>Ratio = MemAgent latency ÷ PARSER latency</p>
+            </div>
+            <svg
+              class="speedup-chart"
+              viewBox="0 0 800 350"
+              role="img"
+              aria-labelledby="speedup-title speedup-desc"
+            >
+              <title id="speedup-title">PARSER latency speedup over MemAgent by context length</title>
+              <desc id="speedup-desc">
+                The speedup increases from 2.0 times at 7K tokens to 11.2 times at 896K tokens.
+              </desc>
+              <defs>
+                <linearGradient id="speedup-line" x1="0" x2="1">
+                  <stop offset="0%" stop-color="#b492e3" />
+                  <stop offset="100%" stop-color="#6b43aa" />
+                </linearGradient>
+                <linearGradient id="speedup-area" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#a67bda" stop-opacity="0.26" />
+                  <stop offset="100%" stop-color="#a67bda" stop-opacity="0" />
+                </linearGradient>
+              </defs>
+
+              <g class="speedup-grid">
+                <line x1="76" y1="38" x2="755" y2="38" />
+                <line x1="76" y1="97" x2="755" y2="97" />
+                <line x1="76" y1="156" x2="755" y2="156" />
+                <line x1="76" y1="215" x2="755" y2="215" />
+                <line x1="76" y1="274" x2="755" y2="274" />
+              </g>
+              <g class="speedup-y-labels">
+                <text x="61" y="42">12×</text>
+                <text x="61" y="101">9×</text>
+                <text x="61" y="160">6×</text>
+                <text x="61" y="219">3×</text>
+                <text x="61" y="278">0×</text>
+              </g>
+              <path
+                class="speedup-area"
+                d="M88 235 L181 220 L274 186 L367 142 L460 107 L553 79 L646 70 L739 54 L739 274 L88 274 Z"
+              />
+              <path
+                class="speedup-line"
+                d="M88 235 L181 220 L274 186 L367 142 L460 107 L553 79 L646 70 L739 54"
+              />
+              <g class="speedup-points">
+                <circle cx="88" cy="235" r="5" />
+                <circle cx="181" cy="220" r="5" />
+                <circle cx="274" cy="186" r="5" />
+                <circle cx="367" cy="142" r="5" />
+                <circle cx="460" cy="107" r="5" />
+                <circle cx="553" cy="79" r="5" />
+                <circle cx="646" cy="70" r="5" />
+                <circle cx="739" cy="54" r="6" />
+              </g>
+              <g class="speedup-values">
+                <text x="88" y="220">2.0×</text>
+                <text x="181" y="205">2.7×</text>
+                <text x="274" y="171">4.5×</text>
+                <text x="367" y="127">6.7×</text>
+                <text x="460" y="92">8.5×</text>
+                <text x="553" y="64">9.9×</text>
+                <text x="646" y="55">10.4×</text>
+                <text class="last-value" x="733" y="36">11.2×</text>
+              </g>
+              <g class="speedup-x-labels">
+                <text x="88" y="303">7K</text>
+                <text x="181" y="303">14K</text>
+                <text x="274" y="303">28K</text>
+                <text x="367" y="303">56K</text>
+                <text x="460" y="303">112K</text>
+                <text x="553" y="303">224K</text>
+                <text x="646" y="303">448K</text>
+                <text x="739" y="303">896K</text>
+                <text class="axis-title" x="415" y="334">Context length (tokens)</text>
+              </g>
+            </svg>
+            <figcaption>
+              At single-request concurrency, PARSER's wall-clock latency grows from 5.33s to 78.22s,
+              while MemAgent grows from 10.56s to 876.20s.
+            </figcaption>
+          </figure>
+
+          <div class="step-reason">
+            <div class="step-reason-copy">
+              <span class="mini-label">WHY THE GAP GROWS</span>
+              <h4>Inference steps stay on the critical path</h4>
+              <p>
+                MemAgent updates memory one chunk after another, so its sequential depth grows with
+                the document. PARSER reads every chunk in the same round; only the lead agent's
+                question-driven rounds stay serial.
+              </p>
+              <p>
+                The same HotpotQA questions are used at every length, so PARSER's step count stays
+                near 4—from 7K through 896K tokens—while MemAgent climbs from 3.1 to 177.
+              </p>
+              <div class="step-legend">
+                <span><i class="parser-key"></i><b>PARSER</b> ≈4 steps at every length</span>
+                <span><i class="memagent-step-key"></i><b>MemAgent</b> 3.1 → 177 steps</span>
+              </div>
+            </div>
+            <figure class="step-chart-card">
+              <svg
+                class="step-chart"
+                viewBox="0 0 800 350"
+                role="img"
+                aria-labelledby="step-title step-desc"
+              >
+                <title id="step-title">Inference step counts of MemAgent and PARSER by context length</title>
+                <desc id="step-desc">
+                  MemAgent steps grow from 3.1 at 7K tokens to 177 at 896K tokens.
+                  PARSER stays near 4 steps at every length.
+                </desc>
+                <defs>
+                  <linearGradient id="step-parser-line" x1="0" x2="1">
+                    <stop offset="0%" stop-color="#b492e3" />
+                    <stop offset="100%" stop-color="#6b43aa" />
+                  </linearGradient>
+                </defs>
+                <g class="speedup-grid">
+                  <line x1="76" y1="38" x2="755" y2="38" />
+                  <line x1="76" y1="97" x2="755" y2="97" />
+                  <line x1="76" y1="156" x2="755" y2="156" />
+                  <line x1="76" y1="215" x2="755" y2="215" />
+                  <line x1="76" y1="274" x2="755" y2="274" />
+                </g>
+                <g class="speedup-y-labels">
+                  <text x="61" y="42">200</text>
+                  <text x="61" y="101">150</text>
+                  <text x="61" y="160">100</text>
+                  <text x="61" y="219">50</text>
+                  <text x="61" y="278">0</text>
+                </g>
+                <path
+                  class="step-line memagent"
+                  d="M88 270.4 L181 268.8 L274 265.8 L367 259.1 L460 245.4 L553 218.1 L646 166.6 L739 65.3"
+                />
+                <path
+                  class="step-line parser"
+                  d="M88 269.2 L181 269.2 L274 269.2 L367 269.2 L460 269.4 L553 269.3 L646 269.3 L739 269.4"
+                />
+                <g class="step-points memagent-points">
+                  <circle cx="88" cy="270.4" r="4.5" />
+                  <circle cx="181" cy="268.8" r="4.5" />
+                  <circle cx="274" cy="265.8" r="4.5" />
+                  <circle cx="367" cy="259.1" r="4.5" />
+                  <circle cx="460" cy="245.4" r="4.5" />
+                  <circle cx="553" cy="218.1" r="4.5" />
+                  <circle cx="646" cy="166.6" r="4.5" />
+                  <circle cx="739" cy="65.3" r="5" />
+                </g>
+                <g class="step-points parser-points">
+                  <circle cx="88" cy="269.2" r="4.5" />
+                  <circle cx="181" cy="269.2" r="4.5" />
+                  <circle cx="274" cy="269.2" r="4.5" />
+                  <circle cx="367" cy="269.2" r="4.5" />
+                  <circle cx="460" cy="269.4" r="4.5" />
+                  <circle cx="553" cy="269.3" r="4.5" />
+                  <circle cx="646" cy="269.3" r="4.5" />
+                  <circle cx="739" cy="269.4" r="5" />
+                </g>
+                <g class="step-values">
+                  <text class="mem-value" x="739" y="52">177</text>
+                  <text class="parser-value" x="739" y="258">≈4</text>
+                </g>
+                <g class="speedup-x-labels">
+                  <text x="88" y="303">7K</text>
+                  <text x="181" y="303">14K</text>
+                  <text x="274" y="303">28K</text>
+                  <text x="367" y="303">56K</text>
+                  <text x="460" y="303">112K</text>
+                  <text x="553" y="303">224K</text>
+                  <text x="646" y="303">448K</text>
+                  <text x="739" y="303">896K</text>
+                  <text class="axis-title" x="415" y="334">Context length (tokens)</text>
+                </g>
+              </svg>
+              <figcaption>
+                Sequential depth tracks document chunks for MemAgent, and reasoning hops for PARSER.
+              </figcaption>
+            </figure>
+          </div>
+        </div>
+
+        <div class="subsection-heading">
+          <span>04 / Other analyses</span>
+          <h3>Lightweight readers, short chunks, swappable implementations.</h3>
+        </div>
+        <div class="analysis-setup-grid other-analyses-grid">
+          <article>
+            <span class="analysis-index">1</span>
+            <div>
+              <h4>Subagent size</h4>
+              <p>
+                With the 4B lead agent held fixed, moving from 2B to 4B subagents lifts average
+                HotpotQA accuracy from 78.3% to 84.6%; a 9B reader then saturates at 84.8%. After
+                question decomposition and chunking, each subagent only answers a focused query
+                over a short context, so a lightweight 4B reader is already enough.
+              </p>
+            </div>
+          </article>
+          <article>
+            <span class="analysis-index">2</span>
+            <div>
+              <h4>Chunk size</h4>
+              <p>
+                Feeding the full document to a single subagent drops the average from 84.6% to
+                73.8%, with the largest losses on the longest subsets. Accuracy also falls as the
+                chunk grows from 4K to 131K tokens. Short chunks keep each reader inside a
+                compact window and avoid context rot.
+              </p>
+            </div>
+          </article>
+          <article>
+            <span class="analysis-index">3</span>
+            <div>
+              <h4>Compatibility with subagent implementations</h4>
+              <p>
+                The same lead agent, without retraining, coordinates thinking and DCI subagents
+                and beats the matching standalone baselines: 85.6% vs. 65.8% for thinking, and
+                84.7% vs. 75.6% for DCI. Coordination is not tied to one reader design.
+              </p>
+            </div>
+          </article>
+        </div>
       </section>
 
       <section id="engineering" class="section engineering-section">
