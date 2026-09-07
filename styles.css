@@ -1184,6 +1184,10 @@ blockquote {
   letter-spacing: -0.03em;
 }
 
+.subsection-heading:not(:has(h3)) {
+  margin-bottom: 18px;
+}
+
 .analysis-setup-grid {
   margin-bottom: 22px;
   display: grid;
