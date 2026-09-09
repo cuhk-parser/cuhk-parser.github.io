@@ -249,14 +249,6 @@ img {
   font-weight: 600;
 }
 
-.authors a {
-  border-bottom: 1px solid rgba(96, 61, 155, 0.22);
-}
-
-.authors a:hover {
-  border-color: var(--purple);
-}
-
 .authors sup,
 .affiliation sup {
   color: var(--purple);

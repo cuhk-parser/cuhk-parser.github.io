@@ -51,11 +51,11 @@
         </p>
 
         <div class="authors fade-in delay-2">
-          <a href="./">Kun Li<sup>*</sup></a>
-          <a href="./">Zexuan Qiu<sup>*</sup></a>
-          <a href="./">Tianhua Zhang<sup>*</sup></a>
-          <a href="./">Irwin King</a>
-          <a href="./">Helen Meng</a>
+          <span>Kun Li<sup>*</sup></span>
+          <span>Zexuan Qiu<sup>*</sup></span>
+          <span>Tianhua Zhang<sup>*</sup></span>
+          <span>Irwin King</span>
+          <span>Helen Meng</span>
         </div>
         <p class="affiliation fade-in delay-2">
           <strong>The Chinese University of Hong Kong</strong>
@@ -63,21 +63,21 @@
         </p>
 
         <div class="resource-links fade-in delay-3">
-          <a class="resource-button" href="./">
+          <a class="resource-button" href="https://arxiv.org/pdf/2609.06702" target="_blank" rel="noopener noreferrer">
             <span class="resource-icon" aria-hidden="true">▧</span>
             <span><strong>Paper</strong></span>
           </a>
-          <a class="resource-button" href="./">
+          <a class="resource-button" href="https://github.com/cuhk-parser/PARSER" target="_blank" rel="noopener noreferrer">
             <span class="resource-icon code-icon" aria-hidden="true">&lt;/&gt;</span>
             <span><strong>Code</strong></span>
           </a>
-          <a class="resource-button" href="./">
+          <a class="resource-button" href="https://huggingface.co/datasets/inNexus/parser_dataset" target="_blank" rel="noopener noreferrer">
             <span class="resource-icon" aria-hidden="true">◫</span>
             <span><strong>Dataset</strong></span>
           </a>
-          <a class="resource-button" href="./">
+          <a class="resource-button" href="https://huggingface.co/inNexus/parser-qwen35-4b" target="_blank" rel="noopener noreferrer">
             <span class="resource-icon" aria-hidden="true">◉</span>
-            <span><strong>Model</strong></span>
+            <span><strong>Checkpoint</strong></span>
           </a>
         </div>
 
@@ -455,7 +455,7 @@
             <div>
               <h4>Evidence position</h4>
               <p>
-                In 894K-token documents, all supporting paragraphs are placed at random inside one
+                In 894K-token documents, all supporting paragraphs are placed inside one
                 10-percentile window, swept from 0–10% through 90–100%.
               </p>
               <p class="analysis-takeaway">
@@ -995,11 +995,14 @@
             </div>
           </div>
           <div class="citation-box">
-            <pre><code id="bibtex">@article{li2026parser,
-  title   = {PARSER: Read in Parallel, Reason in Depth for Long-Context LLM Agents},
-  author  = {Li, Kun and Qiu, Zexuan and Zhang, Tianhua and King, Irwin and Meng, Helen},
-  journal = {arXiv preprint},
-  year    = {2026}
+            <pre><code id="bibtex">@misc{li2026parserreadparallelreason,
+      title={PARSER: Read in Parallel, Reason in Depth for Long-Context LLM Agents}, 
+      author={Kun Li and Zexuan Qiu and Tianhua Zhang and Irwin King and Helen Meng},
+      year={2026},
+      eprint={2609.06702},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL},
+      url={https://arxiv.org/abs/2609.06702}, 
 }</code></pre>
             <button id="copy-citation" type="button" aria-label="Copy BibTeX citation">
               <span>Copy BibTeX</span>
