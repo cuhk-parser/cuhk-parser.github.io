@@ -8,7 +8,7 @@
       content="PARSER：并行阅读，深度推理，面向长上下文 LLM Agent。"
     />
     <meta name="theme-color" content="#f3edff" />
-    <title>PARSER — 面向长上下文 LLM Agent</title>
+    <title>PARSER — Long-Context LLM Agents</title>
     <link rel="alternate" hreflang="en" href="./index.html" />
     <link rel="alternate" hreflang="zh-CN" href="./zh.html" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -47,7 +47,7 @@
       <section class="hero shell">
         <h1 class="fade-in delay-1">
           <span class="parser-word">PARSER</span>
-          <span class="title-rest">并行阅读，深度推理，面向长上下文 LLM Agent</span>
+          <span class="title-rest">Read in Parallel, Reason in Depth for Long-Context LLM Agents</span>
         </h1>
         <p class="hero-thesis fade-in delay-2">
           文档的顺序不应决定推理的顺序。
@@ -712,7 +712,7 @@
         </div>
 
         <div class="subsection-heading">
-          <span>05 / 案例</span>
+          <span>05 / Case study</span>
         </div>
         <details class="case-panel">
           <summary>
@@ -720,14 +720,15 @@
               <div class="case-tags">
                 <span>PARSER-4B</span>
                 <span>2WikiMultiHopQA</span>
-                <span>6400 段</span>
+                <span>6400 paragraphs</span>
               </div>
               <h4>
                 Which film has the director who died earlier, Everything's Ducky or Karthika
                 (Film)?
               </h4>
               <p>
-                主智能体并行广播导演查询，再并行查询去世日期，并选出导演去世更早的影片。
+                The lead agent broadcasts parallel director queries, then parallel death-date
+                queries, and selects the film whose director died earlier.
               </p>
             </div>
             <span class="case-toggle" aria-hidden="true"></span>
@@ -736,8 +737,8 @@
           <div class="case-trace">
             <article class="case-step">
               <header>
-                <span>问题</span>
-                <small>用户</small>
+                <span>Question</span>
+                <small>User</small>
               </header>
               <p class="case-question">
                 Which film has the director who died earlier, Everything's Ducky or Karthika
@@ -747,13 +748,16 @@
 
             <article class="case-step">
               <header>
-                <span>步骤 1</span>
-                <small>查找两部影片的导演</small>
+                <span>Step 1</span>
+                <small>Find both directors</small>
               </header>
               <div class="case-think">
                 <code>&lt;think&gt;</code>
                 <p>
-                  这是一道多跳问题，需要两部影片的信息：“Everything's Ducky” 与 “Karthika”。我需要先找出各自由谁执导，再判断哪位导演去世更早。先向智能体查询导演。
+                  This is a multi-hop question that requires information about two films:
+                  “Everything's Ducky” and “Karthika”. I need to find who directed each film,
+                  then determine which director died earlier. Let me start by querying the
+                  agents for the directors.
                 </p>
                 <code>&lt;/think&gt;</code>
               </div>
@@ -767,7 +771,7 @@
                   <span>Karthika film director</span>
                 </div>
               </div>
-              <p class="case-obs-label">观察</p>
+              <p class="case-obs-label">Observations</p>
               <div class="case-io">
                 <div class="case-obs green">
                   <small>agent_15</small>
@@ -784,13 +788,15 @@
 
             <article class="case-step">
               <header>
-                <span>步骤 2</span>
-                <small>比较去世日期</small>
+                <span>Step 2</span>
+                <small>Compare death dates</small>
               </header>
               <div class="case-think">
                 <code>&lt;think&gt;</code>
                 <p>
-                  “Everything's Ducky” 由 Don Taylor 执导；“Karthika (Film)” 由 M. Krishnan Nair 执导。接下来需要找出这两位导演谁去世更早。
+                  “Everything's Ducky” is directed by Don Taylor; “Karthika (Film)” is directed
+                  by M. Krishnan Nair. Now I need to find which of these two directors died
+                  earlier.
                 </p>
                 <code>&lt;/think&gt;</code>
               </div>
@@ -804,7 +810,7 @@
                   <span>M. Krishnan Nair death date</span>
                 </div>
               </div>
-              <p class="case-obs-label">观察</p>
+              <p class="case-obs-label">Observations</p>
               <div class="case-io">
                 <div class="case-obs green">
                   <small>agent_172</small>
@@ -827,13 +833,15 @@
 
             <article class="case-step">
               <header>
-                <span>步骤 3</span>
-                <small>汇总答案</small>
+                <span>Step 3</span>
+                <small>Compose the answer</small>
               </header>
               <div class="case-think">
                 <code>&lt;think&gt;</code>
                 <p>
-                  Don Taylor 于 1998 年 12 月 29 日去世；M. Krishnan Nair 于 2001 年 5 月 10 日去世。Don Taylor 去世更早，因此导演去世更早的影片是 “Everything's Ducky”。
+                  Don Taylor died on December 29, 1998; M. Krishnan Nair died on 10 May 2001.
+                  Don Taylor died earlier, so the film with the earlier-deceased director is
+                  “Everything's Ducky”.
                 </p>
                 <code>&lt;/think&gt;</code>
               </div>
@@ -846,7 +854,7 @@
           </div>
         </details>
         <p class="case-caption">
-          成功案例 · PARSER-4B 在 2WikiMultiHopQA 上（6400 段 / 约 896K token）。
+          Success case · PARSER-4B on 2WikiMultiHopQA (6400 paragraphs / ~896K tokens).
         </p>
       </section>
 
