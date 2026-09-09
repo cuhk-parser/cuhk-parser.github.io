@@ -102,7 +102,7 @@
 
         <div class="intro-copy prose">
           <p>
-            顺序记忆 Agent 逐块阅读长文档，并维护一份紧凑的记忆状态。这把文档遍历与推理深度绑在一起，使准确率对证据出现位置敏感，并迫使延迟随文档长度增长。
+            sequential memory agents 逐块阅读长文档，并维护一份紧凑的记忆状态。这把文档遍历与推理深度绑在一起，使准确率对证据出现位置敏感，并迫使延迟随文档长度增长。
           </p>
           <p>
             <strong>PARSER</strong> 把文档长度从顺序深度变成并行宽度。轻量级子智能体并发阅读每一块，主智能体则迭代提出聚焦问题、收集证据，并只在问题真正需要的轮次上推理。
@@ -120,7 +120,7 @@
             <span class="feature-number">2</span>
             <div class="feature-symbol">↻</div>
             <h3>深度推理</h3>
-            <p>主智能体随着新证据出现，在散射–汇聚轮次中不断细化查询。</p>
+            <p>主智能体随着新证据出现，在 scatter–gather 轮次中不断细化查询。</p>
           </article>
           <article class="feature-card">
             <span class="feature-number">3</span>
@@ -150,7 +150,7 @@
               给定问题 <em>q</em> 与长文档 <em>D</em>，PARSER 先将 <em>D</em> 切成 <em>T</em> 个定长块。多跳证据通常稀疏且分布在这些块中，因此核心挑战不只是把文档塞进上下文窗口，而是按正确的推理顺序定位并组合正确证据。
             </p>
             <p>
-              顺序记忆 Agent 反复把每个新块压缩进文本记忆。
+              sequential memory agents 反复把每个新块压缩进文本记忆。
               <strong>PARSER 则把文档长度变成并行宽度。</strong>
               每一轮，全部 <em>T</em> 个子智能体并发阅读各自块，主智能体只把 <em>K</em> 轮问题驱动的推理保持为顺序。
             </p>
@@ -159,7 +159,7 @@
           <figure class="paper-figure workflow-figure">
             <img
               src="./assets/workflow.png"
-              alt="顺序记忆 Agent 与 PARSER 并行阅读流程的对比"
+              alt="sequential memory agents 与 PARSER 并行阅读流程的对比"
             />
             <figcaption>
               PARSER 用 <em>K</em> 轮推理取代 <em>T</em> 次依赖的记忆更新，
@@ -184,9 +184,9 @@
             </article>
             <article>
               <div class="mini-label">03 / 自适应</div>
-              <h3>多轮散射–汇聚</h3>
+              <h3>多轮 scatter–gather</h3>
               <p>
-                第 <em>k</em> 轮，聚焦查询散射到所有阅读器，非空发现汇入主智能体历史。这些发现条件化第 <em>k + 1</em> 轮，使后续跳转无需循环压缩或不可逆信息损失即可被发现。
+                第 <em>k</em> 轮，聚焦查询 scatter 到所有阅读器，非空发现 gather 进主智能体历史。这些发现条件化第 <em>k + 1</em> 轮，使后续跳转无需循环压缩或不可逆信息损失即可被发现。
               </p>
             </article>
             <article>
@@ -201,7 +201,7 @@
           <div class="equation-card">
             <span class="equation-label">关键路径</span>
             <div class="equation">
-              <span class="muted">顺序记忆：</span> O(T)
+              <span class="muted">Sequential memory:</span> O(T)
               <span class="equation-divider">→</span>
               <span class="gradient-text">PARSER: O(K)，其中 K ≪ T</span>
             </div>
@@ -221,7 +221,7 @@
         <div class="result-lead">
           <p>
             <span class="mini-label experiment-index">01 / 主要结果</span>
-            在 HotpotQA 与 2WikiMultiHopQA 上，从 7K 到 896K token，PARSER 几乎对长度不变，而全上下文与顺序记忆方法下降。
+            在 HotpotQA 与 2WikiMultiHopQA 上，从 7K 到 896K token，PARSER 几乎对长度不变，而 full-context 与 sequential-memory 方法下降。
           </p>
           <div class="dataset-tags">
             <span>HotpotQA · ID</span>
@@ -363,7 +363,7 @@
             <p>HotpotQA · 4B</p>
             <strong>84.6%</strong>
             <span>平均准确率</span>
-            <small>比最强顺序基线高 5.7 个百分点</small>
+            <small>比最强 sequential baseline 高 5.7 个百分点</small>
           </article>
           <article class="result-card lilac">
             <p>HotpotQA · 9B</p>
@@ -375,7 +375,7 @@
             <p>896K tokens · 4B</p>
             <strong>+12.0</strong>
             <span>百分点</span>
-            <small>相对最强顺序记忆基线</small>
+            <small>相对最强 sequential memory baseline</small>
           </article>
         </div>
 
@@ -384,7 +384,7 @@
             <span class="mini-label">长度稳定性 · HOTPOTQA</span>
             <h3>Max δ 控制在 3 个百分点以内</h3>
             <p>
-              从 7K 到 896K token，PARSER 的准确率极差在 4B 骨干上仅为 2.61 个百分点，在 9B 上为 3.12 个百分点。顺序记忆与全上下文方法随文档变长会波动数十个百分点。
+              从 7K 到 896K token，PARSER 的准确率极差在 4B 骨干上仅为 2.61 个百分点，在 9B 上为 3.12 个百分点。sequential memory 与 full-context 方法随文档变长会波动数十个百分点。
             </p>
           </div>
           <div class="delta-bars" role="img" aria-label="Qwen3.5-4B 上各方法的最大准确率波动">
@@ -422,7 +422,7 @@
 
         <div class="subsection-heading">
           <span>02 / 受控分析</span>
-          <h3>对证据位置、顺序与距离稳健。</h3>
+          <h3>对证据位置、顺序与距离的变化稳健。</h3>
         </div>
         <div class="analysis-setup-grid">
           <article>
@@ -433,7 +433,7 @@
                 在约 894K token 的文档中，全部支持段落被放入一个 10 百分位窗口，并从 0–10% 扫到 90–100%。
               </p>
               <p class="analysis-takeaway">
-                PARSER 在全部十个位置区间上保持稳定。顺序记忆 Agent 在证据位于文档中部时下降，因为早期发现最容易被覆盖。
+                PARSER 在全部十个位置区间上保持稳定。sequential memory agents 在证据位于文档中部时下降，因为早期发现最容易被覆盖。
               </p>
             </div>
           </article>
@@ -445,7 +445,7 @@
                 512 道两跳桥接比较题各配两份 894K token 文档，仅在支持段落遵循或颠倒其标注逻辑顺序上不同。
               </p>
               <p class="analysis-takeaway">
-                支持段落被颠倒时，PARSER 仍保持准确率。顺序记忆 Agent 下降，因为前一跳可能在其相关性变得可见之前就被挤出记忆。
+                支持段落被颠倒时，PARSER 仍保持准确率。sequential memory agents 下降，因为前一跳可能在其相关性变得可见之前就被挤出记忆。
               </p>
             </div>
           </article>
@@ -457,7 +457,7 @@
                 对需要两段证据的问题，在两者之间插入数量不等的干扰段落。
               </p>
               <p class="analysis-takeaway">
-                两段证据间距增大时，PARSER 保持平稳。顺序方法恶化，因为第一段发现必须挺过更多次记忆更新，第二跳才到来。
+                两段证据间距增大时，PARSER 保持平稳。sequential methods 恶化，因为第一段发现必须挺过更多次记忆更新，第二跳才到来。
               </p>
             </div>
           </article>
@@ -468,7 +468,7 @@
             alt="PARSER 在受控证据位置、顺序与距离下的稳健性"
           />
           <figcaption>
-            证据放置变化时，顺序方法准确率大幅波动。PARSER 保持稳定，因为每个块都能在不断演化的查询下被再次访问。
+            证据放置变化时，sequential methods 准确率大幅波动。PARSER 保持稳定，因为每个块都能在不断演化的查询下被再次访问。
           </figcaption>
         </figure>
 
@@ -696,7 +696,7 @@
             <div>
               <h4>块大小</h4>
               <p>
-                把整篇文档交给单个子智能体，平均准确率从 84.6% 降到 73.8%，最长子集损失最大。块从 4K 增到 131K token 时准确率也会下降。短块让每个阅读器留在紧凑窗口内，避免上下文腐烂。
+                把整篇文档交给单个子智能体，平均准确率从 84.6% 降到 73.8%，最长子集损失最大。块从 4K 增到 131K token 时准确率也会下降。短块让每个阅读器留在紧凑窗口内，避免 context rot。
               </p>
             </div>
           </article>
@@ -705,7 +705,7 @@
             <div>
               <h4>与子智能体实现的兼容性</h4>
               <p>
-                同一主智能体无需重训，即可协同 thinking 与 DCI 子智能体，并超过对应独立基线：thinking 为 85.6% 对 65.8%，DCI 为 84.7% 对 75.6%。协同并不绑定某一种阅读器设计。
+                同一主智能体无需重训，即可协同 thinking 与 DCI 子智能体，并超过对应独立基线：thinking 为 85.6% 对 65.8%，DCI 为 84.7% 对 75.6%。主智能体的协同并不绑定某一种阅读器设计。
               </p>
             </div>
           </article>
