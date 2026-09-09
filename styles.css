@@ -168,6 +168,45 @@ img {
   transform: scaleX(1);
 }
 
+.lang-switch {
+  padding: 6px 13px !important;
+  color: var(--purple-deep);
+  border: 1px solid rgba(99, 60, 159, 0.2);
+  border-radius: 999px;
+  background: #f6f1fd;
+  letter-spacing: 0.04em;
+}
+
+.lang-switch::after {
+  display: none !important;
+}
+
+.lang-switch:hover,
+.lang-switch.active {
+  color: var(--purple-deep);
+  background: #efe4fb;
+}
+
+html[lang="zh-CN"] body {
+  font-family: "Noto Sans SC", "DM Sans", system-ui, sans-serif;
+}
+
+html[lang="zh-CN"] h1,
+html[lang="zh-CN"] h2,
+html[lang="zh-CN"] h3,
+html[lang="zh-CN"] h4,
+html[lang="zh-CN"] .brand,
+html[lang="zh-CN"] .kicker,
+html[lang="zh-CN"] .mini-label {
+  font-family: "Noto Sans SC", "Manrope", "DM Sans", system-ui, sans-serif;
+}
+
+html[lang="zh-CN"] .hero h1,
+html[lang="zh-CN"] .title-rest,
+html[lang="zh-CN"] .hero-thesis {
+  letter-spacing: 0;
+}
+
 .menu-toggle {
   display: none;
   border: 0;
@@ -2052,6 +2091,10 @@ footer p { margin: 0; }
   .nav-links.open { display: flex; }
   .nav-links a { padding: 10px 13px; }
   .nav-links a::after { display: none; }
+  .lang-switch {
+    margin-top: 8px;
+    align-self: flex-start;
+  }
 
   .menu-toggle {
     width: 38px;

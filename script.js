@@ -22,6 +22,16 @@ sectionLinks.forEach((link) => {
   });
 });
 
+document.querySelectorAll(".lang-switch").forEach((link) => {
+  link.addEventListener("click", (event) => {
+    navLinks.classList.remove("open");
+    menuButton.setAttribute("aria-expanded", "false");
+    if (!location.hash) return;
+    event.preventDefault();
+    location.assign(`${link.getAttribute("href")}${location.hash}`);
+  });
+});
+
 const sections = sectionLinks
   .map((link) => document.querySelector(link.getAttribute("href")))
   .filter(Boolean);
@@ -46,12 +56,15 @@ sections.forEach((section) => sectionObserver.observe(section));
 const copyButton = document.querySelector("#copy-citation");
 const citation = document.querySelector("#bibtex");
 
+const copyLabel = copyButton.dataset.copyLabel || "Copy BibTeX";
+const copiedLabel = copyButton.dataset.copiedLabel || "Copied!";
+
 copyButton.addEventListener("click", async () => {
   try {
     await navigator.clipboard.writeText(citation.textContent);
-    copyButton.querySelector("span").textContent = "Copied!";
+    copyButton.querySelector("span").textContent = copiedLabel;
     setTimeout(() => {
-      copyButton.querySelector("span").textContent = "Copy BibTeX";
+      copyButton.querySelector("span").textContent = copyLabel;
     }, 1800);
   } catch {
     const range = document.createRange();
