@@ -7,7 +7,7 @@
       name="description"
       content="PARSER: Read in Parallel, Reason in Depth for Long-Context LLM Agents."
     />
-    <meta name="theme-color" content="#f3edff" />
+    <meta name="theme-color" content="#fcfbfd" />
     <title>PARSER — Long-Context LLM Agents</title>
     <link rel="alternate" hreflang="en" href="./index.html" />
     <link rel="alternate" hreflang="zh-CN" href="./zh.html" />
@@ -951,7 +951,7 @@
             <div class="engineering-copy">
               <div class="idle-highlight">
                 <span>KEY SYSTEM BENEFIT</span>
-                <strong>Eliminating idle time of subagents</strong>
+                <strong>Minimizing idle time of subagents</strong>
               </div>
               <p>
                 Policy updating and rollout generation run continuously on separate compute pools.
@@ -960,7 +960,7 @@
               </p>
               <ul class="check-list">
                 <li><span>✓</span><div><strong>Decoupled resources</strong>Rollout and actor training proceed asynchronously.</div></li>
-                <li><span>✓</span><div><strong>Cache-aware routing</strong>SGLang Radix Cache reuses fixed chunk prefixes across rounds.</div></li>
+                <li><span>✓</span><div><strong>Cache-aware routing</strong>SGLang Router and Radix Cache allow subagents to maximally reuse the KV-Cache of the same chunk across rounds.</div></li>
               </ul>
             </div>
           </div>

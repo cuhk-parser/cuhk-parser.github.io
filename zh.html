@@ -7,7 +7,7 @@
       name="description"
       content="PARSER：并行阅读，深度推理，面向长上下文 LLM Agent。"
     />
-    <meta name="theme-color" content="#f3edff" />
+    <meta name="theme-color" content="#fcfbfd" />
     <title>PARSER — Long-Context LLM Agents</title>
     <link rel="alternate" hreflang="en" href="./index.html" />
     <link rel="alternate" hreflang="zh-CN" href="./zh.html" />
@@ -894,14 +894,14 @@
             <div class="engineering-copy">
               <div class="idle-highlight">
                 <span>关键系统收益</span>
-                <strong>消除子智能体空闲时间</strong>
+                <strong>大幅减少子智能体空闲时间</strong>
               </div>
               <p>
                 策略更新与 rollout 生成在分离的计算池上持续运行。主策略更新期间，子智能体集群继续服务 rollout 请求，而不是等待下一同步训练阶段。
               </p>
               <ul class="check-list">
                 <li><span>✓</span><div><strong>资源解耦</strong>Rollout 与 actor 训练异步进行。</div></li>
-                <li><span>✓</span><div><strong>缓存感知路由</strong>SGLang Radix Cache 跨轮复用固定块前缀。</div></li>
+                <li><span>✓</span><div><strong>Cache-aware routing</strong>SGLang Router 与 Radix Cache 允许子智能体在跨轮中最大程度复用同一个 chunk 所对应的 KV-Cache。</div></li>
               </ul>
             </div>
           </div>
