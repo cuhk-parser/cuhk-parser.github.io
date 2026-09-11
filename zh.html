@@ -7,7 +7,7 @@
       name="description"
       content="PARSER：并行阅读，深度推理，面向长上下文 LLM Agent。"
     />
-    <meta name="theme-color" content="#fcfbfd" />
+    <meta name="theme-color" content="#f7f4fc" />
     <title>PARSER — Long-Context LLM Agents</title>
     <link rel="alternate" hreflang="en" href="./index.html" />
     <link rel="alternate" hreflang="zh-CN" href="./zh.html" />
@@ -38,13 +38,17 @@
           <a href="#experiments">实验</a>
           <a href="#engineering">工程</a>
           <a href="#citation">引用</a>
-          <a class="lang-switch" href="./index.html" hreflang="en" lang="en">English</a>
+          <div class="lang-toggle" role="group" aria-label="语言">
+            <a href="./index.html" hreflang="en" lang="en">EN</a>
+            <a href="./zh.html" hreflang="zh-CN" lang="zh-CN" aria-current="page">中文</a>
+          </div>
         </div>
       </nav>
     </header>
 
     <main id="top">
-      <section class="hero shell">
+      <section class="hero">
+        <div class="shell">
         <h1 class="fade-in delay-1">
           <span class="parser-word">PARSER</span>
           <span class="title-rest">Read in Parallel, Reason in Depth for Long-Context LLM Agents</span>
@@ -88,6 +92,7 @@
           <div><strong>896K</strong><span>评测上下文</span></div>
           <div><strong>+12.0</strong><span>在 896K 上提升</span></div>
           <div><strong>11×</strong><span>更低延迟</span></div>
+        </div>
         </div>
       </section>
 
@@ -236,10 +241,22 @@
             <p>
               <strong>Full-context</strong> 直接把问题与整篇文档送入一次模型调用，不做分块，也不用外部记忆。
             </p>
-            <p>
-              <strong>MemAgent</strong> 顺序阅读文档块，反复把当前块与上一状态压缩成定长文本记忆，再据此给出最终答案。
-            </p>
+            <div class="baseline-stack">
+              <p>
+                <strong>MemAgent</strong> 顺序阅读文档块，反复把当前块与上一状态压缩成定长文本记忆，再据此给出最终答案。
+              </p>
+              <p>
+                <strong>ReMemR1</strong> 建立在这一 sequential memory 流程上，并增加 callback 模块以检索更早的记忆状态，使后续更新中被覆盖的信息仍可被找回。
+              </p>
+            </div>
           </div>
+        </div>
+
+        <div class="eval-setting">
+          <span class="mini-label">评测设置</span>
+          <p>
+            每个测试问题保留其黄金支持段落，再用 Wikipedia 干扰段落填充到目标长度。八列对应 50、100、200、400、800、1600、3200 与 6400 段，约 7K–896K token。同一组 128 道题在每个长度上复用，因此比较隔离的是文档长度，而不是题目难度。
+          </p>
         </div>
 
         <div class="results-table-card">
@@ -471,6 +488,9 @@
             证据放置变化时，sequential methods 准确率大幅波动。PARSER 保持稳定，因为每个块都能在不断演化的查询下被再次访问。
           </figcaption>
         </figure>
+        <p class="analysis-summary">
+          综合来看，这些实验揭示了 sequential memory agents 同一结构瓶颈的三种表现。三种失效都来自容量受限、按文档顺序进行的循环压缩。相比之下，PARSER 在每一推理轮让全部子智能体在同一问题条件化查询下并发检查各自块，并随查询演化再次访问它们。这种位置对称的访问把逻辑推理从证据的物理位置、顺序与距离中解耦，从而在三项控制上保持稳健。
+        </p>
 
         <div class="subsection-heading">
           <span>03 / 推理效率</span>
@@ -863,46 +883,60 @@
           <div class="section-heading">
             <span class="section-number">04</span>
             <div>
-              <p class="kicker">工程设计</p>
-              <h2>完全异步的强化学习训练</h2>
+              <p class="kicker">工程</p>
+              <h2>工程设计</h2>
             </div>
           </div>
 
           <div class="engineering-layout">
             <div class="pipeline">
-              <div class="pipeline-node rollout-node">
-                <span class="node-icon">↯</span>
-                <div><strong>SGLang Rollouts</strong><small>持续生成</small></div>
+              <div class="pipeline-node router-node">
+                <span class="node-icon router-icon" aria-hidden="true"></span>
+                <div><strong>SGLang Router</strong><small>通过多个 SGLang servers 服务冻结的子智能体</small></div>
+                <div class="router-servers" aria-hidden="true">
+                  <i></i><i></i><i></i><i></i><i></i><i></i>
+                </div>
               </div>
-              <div class="pipeline-flow">
-                <span>轨迹</span><i></i><span>参数</span>
+              <div class="pipeline-exchange comm-link">
+                <div class="flow-item down"><i></i></div>
+                <span>持续通信</span>
+                <div class="flow-item up"><i></i></div>
+              </div>
+              <div class="pipeline-node rollout-node">
+                <span class="node-icon rollout-icon" aria-hidden="true"></span>
+                <div><strong>SGLang Rollouts</strong><small>lead agent · 持续生成</small></div>
+              </div>
+              <div class="pipeline-exchange">
+                <div class="flow-item down">
+                  <span>轨迹</span>
+                  <i></i>
+                </div>
+                <div class="flow-item up">
+                  <i></i>
+                  <span>参数 · 每 4 步</span>
+                </div>
               </div>
               <div class="pipeline-node trainer-node">
                 <span class="node-icon">∇</span>
-                <div><strong>Megatron Trainer</strong><small>持续策略更新</small></div>
-              </div>
-              <div class="subagent-cluster">
-                <span class="cluster-label">SGLang Model Gateway</span>
-                <div class="cluster-gpus">
-                  <i></i><i></i><i></i><i></i><i></i>
-                  <i></i><i></i><i></i><i></i><i></i>
-                </div>
-                <p>持续服务冻结的子智能体</p>
+                <div><strong>Megatron Trainer</strong><small>策略更新</small></div>
               </div>
             </div>
 
             <div class="engineering-copy">
-              <div class="idle-highlight">
-                <span>关键系统收益</span>
-                <strong>大幅减少子智能体空闲时间</strong>
-              </div>
-              <p>
-                策略更新与 rollout 生成在分离的计算池上持续运行。主策略更新期间，子智能体集群继续服务 rollout 请求，而不是等待下一同步训练阶段。
-              </p>
-              <ul class="check-list">
-                <li><span>✓</span><div><strong>资源解耦</strong>Rollout 与 actor 训练异步进行。</div></li>
-                <li><span>✓</span><div><strong>Cache-aware routing</strong>SGLang Router 与 Radix Cache 允许子智能体在跨轮中最大程度复用同一个 chunk 所对应的 KV-Cache。</div></li>
-              </ul>
+              <article class="eng-point">
+                <h3>Fully Asynchronous RL Training</h3>
+                <p>
+                  策略更新与 rollout 生成在分离的计算池上持续运行。主策略更新期间，子智能体集群继续服务 rollout 请求，而不是等待下一同步训练阶段。
+                </p>
+                <p class="eng-benefit"><span>收益</span>大幅减少子智能体空闲时间。</p>
+              </article>
+              <article class="eng-point">
+                <h3>Subagent router</h3>
+                <p>
+                  使用 SGLang Router 与 Radix Cache，使跨轮下仍由同一个 subagent 实例负责同一个 chunk。
+                </p>
+                <p class="eng-benefit"><span>收益</span>子智能体得以在跨轮中最大程度复用同一 chunk 的 KV-Cache，从而降低 prefill cost。</p>
+              </article>
             </div>
           </div>
         </div>

@@ -22,10 +22,14 @@ sectionLinks.forEach((link) => {
   });
 });
 
-document.querySelectorAll(".lang-switch").forEach((link) => {
+document.querySelectorAll(".lang-toggle a").forEach((link) => {
   link.addEventListener("click", (event) => {
     navLinks.classList.remove("open");
     menuButton.setAttribute("aria-expanded", "false");
+    if (link.getAttribute("aria-current") === "page") {
+      event.preventDefault();
+      return;
+    }
     if (!location.hash) return;
     event.preventDefault();
     location.assign(`${link.getAttribute("href")}${location.hash}`);

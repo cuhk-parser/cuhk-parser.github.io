@@ -7,7 +7,7 @@
       name="description"
       content="PARSER: Read in Parallel, Reason in Depth for Long-Context LLM Agents."
     />
-    <meta name="theme-color" content="#fcfbfd" />
+    <meta name="theme-color" content="#f7f4fc" />
     <title>PARSER — Long-Context LLM Agents</title>
     <link rel="alternate" hreflang="en" href="./index.html" />
     <link rel="alternate" hreflang="zh-CN" href="./zh.html" />
@@ -38,13 +38,17 @@
           <a href="#experiments">Experiments</a>
           <a href="#engineering">Engineering</a>
           <a href="#citation">Citation</a>
-          <a class="lang-switch" href="./zh.html" hreflang="zh-CN" lang="zh-CN">中文</a>
+          <div class="lang-toggle" role="group" aria-label="Language">
+            <a href="./index.html" hreflang="en" lang="en" aria-current="page">EN</a>
+            <a href="./zh.html" hreflang="zh-CN" lang="zh-CN">中文</a>
+          </div>
         </div>
       </nav>
     </header>
 
     <main id="top">
-      <section class="hero shell">
+      <section class="hero">
+        <div class="shell">
         <h1 class="fade-in delay-1">
           <span class="parser-word">PARSER</span>
           <span class="title-rest">Read in Parallel, Reason in Depth for Long-Context LLM Agents</span>
@@ -88,6 +92,7 @@
           <div><strong>896K</strong><span>evaluation context</span></div>
           <div><strong>+12.0</strong><span>points at 896K</span></div>
           <div><strong>11×</strong><span>lower latency</span></div>
+        </div>
         </div>
       </section>
 
@@ -259,12 +264,30 @@
               <strong>Full-context</strong> directly feeds the question together with the entire
               document into a single model call, without document chunking or an external memory.
             </p>
-            <p>
-              <strong>MemAgent</strong> reads document chunks sequentially, repeatedly compressing
-              each chunk and the previous state into a fixed-length textual memory from which it
-              produces the final answer.
-            </p>
+            <div class="baseline-stack">
+              <p>
+                <strong>MemAgent</strong> reads document chunks sequentially, repeatedly compressing
+                each chunk and the previous state into a fixed-length textual memory from which it
+                produces the final answer.
+              </p>
+              <p>
+                <strong>ReMemR1</strong> builds on this sequential memory pipeline and adds a
+                callback module that retrieves earlier memory states, so information overwritten
+                in later updates can still be recovered.
+              </p>
+            </div>
           </div>
+        </div>
+
+        <div class="eval-setting">
+          <span class="mini-label">EVALUATION SETTING</span>
+          <p>
+            Each test question keeps its gold supporting paragraphs and is packed with distractor
+            Wikipedia paragraphs to a target length. The eight columns are 50, 100, 200, 400, 800,
+            1600, 3200, and 6400 paragraphs, corresponding to about 7K–896K tokens. The same 128
+            questions are reused at every length, so the comparison isolates document length rather
+            than question difficulty.
+          </p>
         </div>
 
         <div class="results-table-card">
@@ -509,6 +532,15 @@
             remains stable because every chunk can be revisited under evolving queries.
           </figcaption>
         </figure>
+        <p class="analysis-summary">
+          Taken together, these experiments expose three manifestations of the same structural
+          bottleneck in sequential memory agents. All three failure modes arise from
+          capacity-limited, document-ordered recurrent compression. In contrast, at each reasoning
+          round, PARSER allows all subagents to inspect their respective chunks concurrently under
+          the same question-conditioned query and to revisit them as the query evolves. This
+          position-symmetric access decouples logical reasoning from the physical position, order,
+          and distance of evidence, accounting for PARSER's robustness across all three controls.
+        </p>
 
         <div class="subsection-heading">
           <span>03 / Inference efficiency</span>
@@ -920,48 +952,63 @@
           <div class="section-heading">
             <span class="section-number">04</span>
             <div>
-              <p class="kicker">Engineering Design</p>
-              <h2>Fully Asynchronous RL Training</h2>
+              <p class="kicker">Engineering</p>
+              <h2>Engineering Design</h2>
             </div>
           </div>
 
           <div class="engineering-layout">
             <div class="pipeline">
-              <div class="pipeline-node rollout-node">
-                <span class="node-icon">↯</span>
-                <div><strong>SGLang Rollouts</strong><small>continuous generation</small></div>
+              <div class="pipeline-node router-node">
+                <span class="node-icon router-icon" aria-hidden="true"></span>
+                <div><strong>Router for Subagents</strong><small>serving frozen subagents via multiple SGLang servers</small></div>
+                <div class="router-servers" aria-hidden="true">
+                  <i></i><i></i><i></i><i></i><i></i><i></i>
+                </div>
               </div>
-              <div class="pipeline-flow">
-                <span>trajectories</span><i></i><span>parameters</span>
+              <div class="pipeline-exchange comm-link">
+                <div class="flow-item down"><i></i></div>
+                <span>continuous communication</span>
+                <div class="flow-item up"><i></i></div>
+              </div>
+              <div class="pipeline-node rollout-node">
+                <span class="node-icon rollout-icon" aria-hidden="true"></span>
+                <div><strong>Rollouts for Lead Agent</strong><small>continuous generation</small></div>
+              </div>
+              <div class="pipeline-exchange">
+                <div class="flow-item down">
+                  <span>trajectories</span>
+                  <i></i>
+                </div>
+                <div class="flow-item up">
+                  <i></i>
+                  <span>parameters · every 4 steps</span>
+                </div>
               </div>
               <div class="pipeline-node trainer-node">
                 <span class="node-icon">∇</span>
-                <div><strong>Megatron Trainer</strong><small>continuous policy updates</small></div>
-              </div>
-              <div class="subagent-cluster">
-                <span class="cluster-label">SGLang Model Gateway</span>
-                <div class="cluster-gpus">
-                  <i></i><i></i><i></i><i></i><i></i>
-                  <i></i><i></i><i></i><i></i><i></i>
-                </div>
-                <p>Serving frozen subagents continuously</p>
+                <div><strong>Megatron Trainer</strong><small>policy updates</small></div>
               </div>
             </div>
 
             <div class="engineering-copy">
-              <div class="idle-highlight">
-                <span>KEY SYSTEM BENEFIT</span>
-                <strong>Minimizing idle time of subagents</strong>
-              </div>
-              <p>
-                Policy updating and rollout generation run continuously on separate compute pools.
-                While the lead policy is being updated, the subagent cluster keeps serving rollout
-                requests instead of waiting for the next synchronous training stage.
-              </p>
-              <ul class="check-list">
-                <li><span>✓</span><div><strong>Decoupled resources</strong>Rollout and actor training proceed asynchronously.</div></li>
-                <li><span>✓</span><div><strong>Cache-aware routing</strong>SGLang Router and Radix Cache allow subagents to maximally reuse the KV-Cache of the same chunk across rounds.</div></li>
-              </ul>
+              <article class="eng-point">
+                <h3>Fully Asynchronous RL Training</h3>
+                <p>
+                  Policy updating and rollout generation run continuously on separate compute pools.
+                  While the lead policy is being updated, the subagent cluster keeps serving rollout
+                  requests instead of waiting for the next synchronous training stage.
+                </p>
+                <p class="eng-benefit"><span>Benefit</span>Minimizing idle time of subagents.</p>
+              </article>
+              <article class="eng-point">
+                <h3>Subagent router</h3>
+                <p>
+                  SGLang Router and Radix Cache keep the same subagent instance responsible for the
+                  same chunk across rounds.
+                </p>
+                <p class="eng-benefit"><span>Benefit</span>Subagents maximally reuse the KV-Cache of the same chunk across rounds, reducing prefill cost.</p>
+              </article>
             </div>
           </div>
         </div>
