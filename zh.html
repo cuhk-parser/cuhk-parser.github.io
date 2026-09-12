@@ -605,11 +605,11 @@
                 MemAgent 一块接一块地更新记忆，因此其顺序深度（inference step）随文档增长。PARSER 在同一轮阅读所有块；只有主智能体的问题驱动轮次保持串行。
               </p>
               <p>
-                每一长度都使用同一组 HotpotQA 题，因此 PARSER 的步数从 7K 到 896K token 都接近 4，而 MemAgent 从 3.1 升到 177。
+                每一长度都使用同一组 HotpotQA 题，因此 PARSER 的步数从 7K 到 896K token 都接近 4，而 MemAgent 从 3 升到 183.58。
               </p>
               <div class="step-legend">
                 <span><i class="parser-key"></i><b>PARSER</b> 每个长度约 4 步</span>
-                <span><i class="memagent-step-key"></i><b>MemAgent</b> 3.1 → 177 步</span>
+                <span><i class="memagent-step-key"></i><b>MemAgent</b> 3 → 183.58 步</span>
               </div>
             </div>
             <figure class="step-chart-card">
@@ -621,7 +621,7 @@
               >
                 <title id="step-title">MemAgent 与 PARSER 的推理步数随上下文长度变化</title>
                 <desc id="step-desc">
-                  MemAgent 的步数从 7K token 的 3.1 增至 896K token 的 177。PARSER 在每个长度都接近 4 步。
+                  MemAgent 的步数从 7K token 的 3 增至 896K token 的 183.58。PARSER 在每个长度都接近 4 步。
                 </desc>
                 <defs>
                   <linearGradient id="step-parser-line" x1="0" x2="1">
@@ -646,21 +646,21 @@
                 <text class="axis-title y-axis-title" transform="rotate(-90 16 156)" x="16" y="156">Inference step</text>
                 <path
                   class="step-line memagent"
-                  d="M88 270.4 L181 268.8 L274 265.8 L367 259.1 L460 245.4 L553 218.1 L646 166.6 L739 65.3"
+                  d="M88 270.46 L181 269.13 L274 265.68 L367 258.83 L460 245.57 L553 218.67 L646 164.90 L739 57.38"
                 />
                 <path
                   class="step-line parser"
                   d="M88 269.2 L181 269.2 L274 269.2 L367 269.2 L460 269.4 L553 269.3 L646 269.3 L739 269.4"
                 />
                 <g class="step-points memagent-points">
-                  <circle cx="88" cy="270.4" r="4.5" />
-                  <circle cx="181" cy="268.8" r="4.5" />
-                  <circle cx="274" cy="265.8" r="4.5" />
-                  <circle cx="367" cy="259.1" r="4.5" />
-                  <circle cx="460" cy="245.4" r="4.5" />
-                  <circle cx="553" cy="218.1" r="4.5" />
-                  <circle cx="646" cy="166.6" r="4.5" />
-                  <circle cx="739" cy="65.3" r="5" />
+                  <circle cx="88" cy="270.46" r="4.5" />
+                  <circle cx="181" cy="269.13" r="4.5" />
+                  <circle cx="274" cy="265.68" r="4.5" />
+                  <circle cx="367" cy="258.83" r="4.5" />
+                  <circle cx="460" cy="245.57" r="4.5" />
+                  <circle cx="553" cy="218.67" r="4.5" />
+                  <circle cx="646" cy="164.90" r="4.5" />
+                  <circle cx="739" cy="57.38" r="5" />
                 </g>
                 <g class="step-points parser-points">
                   <circle cx="88" cy="269.2" r="4.5" />
@@ -673,7 +673,7 @@
                   <circle cx="739" cy="269.4" r="5" />
                 </g>
                 <g class="step-values">
-                  <text class="mem-value" x="739" y="52">177</text>
+                  <text class="mem-value" x="739" y="44">183.58</text>
                   <text class="parser-value" x="739" y="258">≈4</text>
                 </g>
                 <g class="speedup-x-labels">
