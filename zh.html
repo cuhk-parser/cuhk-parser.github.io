@@ -226,7 +226,7 @@
         <div class="result-lead">
           <p>
             <span class="mini-label experiment-index">01 / 主要结果</span>
-            在 HotpotQA 与 2WikiMultiHopQA 上，从 7K 到 896K token，PARSER 几乎对长度不变，而 full-context 与 sequential-memory 方法下降。
+            在 HotpotQA 与 2WikiMultiHopQA 上，从 7K 到 896K token，PARSER 的性能对文档长度变化不产生波动，而 full-context 与 sequential-memory 方法下降。
           </p>
           <div class="dataset-tags">
             <span>HotpotQA · ID</span>
@@ -239,7 +239,7 @@
           <span class="mini-label">基线范式</span>
           <div class="baseline-grid">
             <p>
-              <strong>Full-context</strong> 直接把问题与整篇文档送入一次模型调用，不做分块，也不用外部记忆。
+              <strong>Full-context</strong> 直接把问题与整篇文档送入模型以直接生成回复，不做分块，也不用外部记忆。
             </p>
             <div class="baseline-stack">
               <p>
@@ -255,7 +255,7 @@
         <div class="eval-setting">
           <span class="mini-label">评测设置</span>
           <p>
-            每个测试问题保留其黄金支持段落，再用 Wikipedia 干扰段落填充到目标长度。八列对应 50、100、200、400、800、1600、3200 与 6400 段，约 7K–896K token。同一组 128 道题在每个长度上复用，因此比较隔离的是文档长度，而不是题目难度。
+            每个测试问题保留其黄金支持段落，再用 Wikipedia 干扰段落填充到目标长度。八列对应 50、100、200、400、800、1600、3200 与 6400 段，约 7K–896K token。同一组 128 道题在不同长度的测试集上复用，因此实验能清晰反映出文档长度对准确率的影响。
           </p>
         </div>
 
@@ -271,7 +271,7 @@
             <table>
               <thead>
                 <tr>
-                  <th scope="col">骨干</th>
+                  <th scope="col">底座模型</th>
                   <th scope="col">方法</th>
                   <th scope="col"><span>50</span><small>7K</small></th>
                   <th scope="col"><span>100</span><small>14K</small></th>
@@ -401,7 +401,7 @@
             <span class="mini-label">长度稳定性 · HOTPOTQA</span>
             <h3>Max δ 控制在 3 个百分点以内</h3>
             <p>
-              从 7K 到 896K token，PARSER 的准确率极差在 4B 骨干上仅为 2.61 个百分点，在 9B 上为 3.12 个百分点。sequential memory 与 full-context 方法随文档变长会波动数十个百分点。
+              从 7K 到 896K token，PARSER 的准确率极差在 4B 底座模型上仅为 2.61 个百分点，在 9B 上为 3.12 个百分点。sequential memory 与 full-context 方法随文档变长会波动数十个百分点。
             </p>
           </div>
           <div class="delta-bars" role="img" aria-label="Qwen3.5-4B 上各方法的最大准确率波动">
@@ -927,14 +927,14 @@
               <article class="eng-point">
                 <h3>Fully Asynchronous RL Training</h3>
                 <p>
-                  策略更新与 rollout 生成在分离的计算池上持续运行。主策略更新期间，子智能体集群继续服务 rollout 请求，而不是等待下一同步训练阶段。
+                  策略更新与 rollout 生成在分离的GPU上持续运行。主策略参数更新期间，子智能体集群继续服务 rollout 请求，而不是等待下一同步训练阶段。
                 </p>
                 <p class="eng-benefit"><span>收益</span>大幅减少子智能体空闲时间。</p>
               </article>
               <article class="eng-point">
                 <h3>Subagent router</h3>
                 <p>
-                  使用 SGLang Router 与 Radix Cache，使跨轮下仍由同一个 subagent 实例负责同一个 chunk。
+                  使用 SGLang Router 与 Radix Cache，使跨轮下仍由同一个推理后端实例负责同一个 chunk。
                 </p>
                 <p class="eng-benefit"><span>收益</span>子智能体得以在跨轮中最大程度复用同一 chunk 的 KV-Cache，从而降低 prefill cost。</p>
               </article>
@@ -953,7 +953,7 @@
         </div>
         <div class="conclusion-grid">
           <p>
-            PARSER 表明，有效的长上下文推理并不要求每一步都带着整篇文档前进。通过把局部阅读与全局推理分开，它在极端长度上保持准确，并对证据放置位置稳健。
+            PARSER 表明，有效的长上下文推理并不要求每一步都带着整篇文档前进。通过把局部阅读与全局推理分开，它在极端长度上保持准确，并对证据放置位置鲁棒。
           </p>
           <p>
             由此得到的架构也易于优化：冻结轻量阅读器，用可验证奖励训练一个主策略，再通过并行宽度扩展文档覆盖。
