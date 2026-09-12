@@ -660,11 +660,11 @@
           <div class="step-reason">
             <div class="step-reason-copy">
               <span class="mini-label">WHY THE GAP GROWS</span>
-              <h4>Inference steps stay on the critical path</h4>
+              <h4>Inference steps follow the question, not the document</h4>
               <p>
-                MemAgent updates memory one chunk after another, so its sequential depth grows with
-                the document. PARSER reads every chunk in the same round; only the lead agent's
-                question-driven rounds stay serial.
+                MemAgent updates memory one chunk after another, so its sequential depth
+                (inference step) grows with the document. PARSER reads every chunk in the same
+                round; only the lead agent's question-driven rounds stay serial.
               </p>
               <p>
                 The same HotpotQA questions are used at every length, so PARSER's step count stays
@@ -707,6 +707,7 @@
                   <text x="61" y="219">50</text>
                   <text x="61" y="278">0</text>
                 </g>
+                <text class="axis-title y-axis-title" transform="rotate(-90 16 156)" x="16" y="156">Inference step</text>
                 <path
                   class="step-line memagent"
                   d="M88 270.4 L181 268.8 L274 265.8 L367 259.1 L460 245.4 L553 218.1 L646 166.6 L739 65.3"
@@ -760,7 +761,7 @@
 
         <div class="subsection-heading">
           <span>04 / Other analyses</span>
-          <h3>Lightweight readers, short chunks, swappable implementations.</h3>
+          <h3>Subagent: Lightweight readers, short chunks, swappable implementations.</h3>
         </div>
         <div class="analysis-setup-grid other-analyses-grid">
           <article>
@@ -782,8 +783,9 @@
               <p>
                 Feeding the full document to a single subagent drops the average from 84.6% to
                 73.8%, with the largest losses on the longest subsets. Accuracy also falls as the
-                chunk grows from 4K to 131K tokens. Short chunks keep each reader inside a
-                compact window and avoid context rot.
+                chunk grows from 4K to 131K tokens: key information in longer inputs is harder
+                for the model to capture, consistent with context rot. PARSER therefore assigns
+                each subagent only a short chunk of the document.
               </p>
             </div>
           </article>

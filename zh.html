@@ -603,9 +603,9 @@
           <div class="step-reason">
             <div class="step-reason-copy">
               <span class="mini-label">差距为何扩大</span>
-              <h4>推理步数留在关键路径上</h4>
+              <h4>推理步数取决于问题本身，而不是文档</h4>
               <p>
-                MemAgent 一块接一块地更新记忆，因此其顺序深度随文档增长。PARSER 在同一轮阅读所有块；只有主智能体的问题驱动轮次保持串行。
+                MemAgent 一块接一块地更新记忆，因此其顺序深度（inference step）随文档增长。PARSER 在同一轮阅读所有块；只有主智能体的问题驱动轮次保持串行。
               </p>
               <p>
                 每一长度都使用同一组 HotpotQA 题，因此 PARSER 的步数从 7K 到 896K token 都接近 4，而 MemAgent 从 3.1 升到 177。
@@ -646,6 +646,7 @@
                   <text x="61" y="219">50</text>
                   <text x="61" y="278">0</text>
                 </g>
+                <text class="axis-title y-axis-title" transform="rotate(-90 16 156)" x="16" y="156">Inference step</text>
                 <path
                   class="step-line memagent"
                   d="M88 270.4 L181 268.8 L274 265.8 L367 259.1 L460 245.4 L553 218.1 L646 166.6 L739 65.3"
@@ -699,7 +700,7 @@
 
         <div class="subsection-heading">
           <span>04 / 其他分析</span>
-          <h3>轻量阅读器、短块、可替换实现。</h3>
+          <h3>Subagent：轻量阅读器、短块、可替换实现。</h3>
         </div>
         <div class="analysis-setup-grid other-analyses-grid">
           <article>
@@ -716,7 +717,7 @@
             <div>
               <h4>块大小</h4>
               <p>
-                把整篇文档交给单个子智能体，平均准确率从 84.6% 降到 73.8%，最长子集损失最大。块从 4K 增到 131K token 时准确率也会下降。短块让每个阅读器留在紧凑窗口内，避免 context rot。
+                把整篇文档交给单个子智能体，平均准确率从 84.6% 降到 73.8%，最长子集损失最大。块从 4K 增到 131K token 时准确率也会下降：更长输入中的关键信息更难被模型捕捉，与 context rot 一致。因此 PARSER 让每个子智能体只处理文档的一个短块。
               </p>
             </div>
           </article>

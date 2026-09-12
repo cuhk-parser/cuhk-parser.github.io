@@ -1916,8 +1916,19 @@ blockquote {
 }
 
 .step-values text {
-  font: 700 12px var(--display);
+  font: 700 16px var(--display);
   text-anchor: end;
+}
+
+.step-chart .speedup-y-labels text,
+.step-chart .speedup-x-labels text {
+  font-size: 14px;
+}
+
+.step-chart .axis-title,
+.step-chart .y-axis-title {
+  font-size: 15px;
+  font-weight: 700;
 }
 
 .step-values .mem-value { fill: #c56d2f; }
@@ -1982,10 +1993,15 @@ blockquote {
   text-anchor: end;
 }
 
-.speedup-x-labels .axis-title {
+.speedup-x-labels .axis-title,
+.y-axis-title {
   fill: var(--ink-soft);
   font-size: 11px;
   font-weight: 600;
+}
+
+.y-axis-title {
+  text-anchor: middle;
 }
 
 .speedup-area {
