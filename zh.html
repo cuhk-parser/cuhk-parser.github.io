@@ -191,7 +191,7 @@
               <div class="mini-label">03 / 自适应</div>
               <h3>多轮 scatter–gather</h3>
               <p>
-                第 <em>k</em> 轮，聚焦查询 scatter 到所有阅读器，非空发现 gather 进主智能体历史。这些发现条件化第 <em>k + 1</em> 轮，使后续跳转无需循环压缩或不可逆信息损失即可被发现。
+                第 <em>k</em> 轮，主智能体发出的聚焦查询 scatter 到所有阅读器，子智能体的非空发现 gather 进主智能体历史。这些发现作为第 <em>k + 1</em> 轮的条件，使得重要相关信息不会在后续轮次中丢失。
               </p>
             </article>
             <article>
@@ -447,10 +447,10 @@
             <div>
               <h4>证据位置</h4>
               <p>
-                在约 894K token 的文档中，全部支持段落被放入一个 10 百分位窗口，并从 0–10% 扫到 90–100%。
+                在约 894K token 的文档中，全部支持段落被放入一个 10 百分位窗口，实验包括了从 0–10% 到 90–100% 的全部位置区间。
               </p>
               <p class="analysis-takeaway">
-                PARSER 在全部十个位置区间上保持稳定。sequential memory agents 在证据位于文档中部时下降，因为早期发现最容易被覆盖。
+                PARSER 在全部十个位置区间上保持稳定。sequential memory agents 在证据位于文档中部时下降，因为早期发现在 memory 中最容易被覆盖。
               </p>
             </div>
           </article>
@@ -459,7 +459,7 @@
             <div>
               <h4>证据顺序</h4>
               <p>
-                512 道两跳桥接比较题各配两份 894K token 文档，仅在支持段落遵循或颠倒其标注逻辑顺序上不同。
+                512 道两跳桥接比较题各配两份 894K token 文档，这两份文档中的支持段落遵循或颠倒其标注逻辑顺序。
               </p>
               <p class="analysis-takeaway">
                 支持段落被颠倒时，PARSER 仍保持准确率。sequential memory agents 下降，因为前一跳可能在其相关性变得可见之前就被挤出记忆。
@@ -474,23 +474,20 @@
                 对需要两段证据的问题，在两者之间插入数量不等的干扰段落。
               </p>
               <p class="analysis-takeaway">
-                两段证据间距增大时，PARSER 保持平稳。sequential methods 恶化，因为第一段发现必须挺过更多次记忆更新，第二跳才到来。
+                两段证据间距增大时，PARSER 保持平稳。sequential methods 恶化，因为第一段发现必须挺过更多次记忆更新，第二段发现才会出现。
               </p>
             </div>
           </article>
         </div>
-        <figure class="paper-figure">
+        <figure class="paper-figure evidence-figure">
           <img
             src="./assets/evidence-controls.png"
             alt="PARSER 在受控证据位置、顺序与距离下的稳健性"
           />
           <figcaption>
-            证据放置变化时，sequential methods 准确率大幅波动。PARSER 保持稳定，因为每个块都能在不断演化的查询下被再次访问。
+            综合来看，这些实验揭示了 sequential memory agents 同一结构瓶颈的三种表现。三种失效都来自 memory容量受限、按文档顺序进行的循环压缩。相比之下，PARSER 在每一推理轮让全部子智能体在同一问题条件化查询下并发检查各自块，并随查询演化再次访问它们。这种位置对称的访问把逻辑推理从证据的物理位置、顺序与距离中解耦，从而在三项扰动上保持稳健。
           </figcaption>
         </figure>
-        <p class="analysis-summary">
-          综合来看，这些实验揭示了 sequential memory agents 同一结构瓶颈的三种表现。三种失效都来自容量受限、按文档顺序进行的循环压缩。相比之下，PARSER 在每一推理轮让全部子智能体在同一问题条件化查询下并发检查各自块，并随查询演化再次访问它们。这种位置对称的访问把逻辑推理从证据的物理位置、顺序与距离中解耦，从而在三项控制上保持稳健。
-        </p>
 
         <div class="subsection-heading">
           <span>03 / 推理效率</span>

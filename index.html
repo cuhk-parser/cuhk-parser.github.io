@@ -208,8 +208,7 @@
               <p>
                 At round <em>k</em>, focused queries are scattered to all readers and non-empty
                 findings are gathered into the lead agent's history. Those findings condition round
-                <em>k + 1</em>, allowing later hops to be discovered without recurrent compression
-                or irreversible information loss.
+                <em>k + 1</em>, so important related information is not lost in later rounds.
               </p>
             </article>
             <article>
@@ -486,8 +485,8 @@
               </p>
               <p class="analysis-takeaway">
                 PARSER stays stable across all ten position bins. Sequential memory agents drop
-                when evidence sits in the middle of the document, where earlier findings are most
-                easily overwritten.
+                when evidence sits in the middle of the document, where earlier findings most
+                easily get evicted from memory.
               </p>
             </div>
           </article>
@@ -522,25 +521,21 @@
             </div>
           </article>
         </div>
-        <figure class="paper-figure">
+        <figure class="paper-figure evidence-figure">
           <img
             src="./assets/evidence-controls.png"
             alt="PARSER robustness under controlled evidence position, order, and distance"
           />
           <figcaption>
-            Sequential methods exhibit large accuracy swings as evidence placement changes. PARSER
-            remains stable because every chunk can be revisited under evolving queries.
+            Taken together, these experiments expose three manifestations of the same structural
+            bottleneck in sequential memory agents. All three failure modes arise from
+            capacity-limited, document-ordered recurrent compression. In contrast, at each reasoning
+            round, PARSER allows all subagents to inspect their respective chunks concurrently under
+            the same question-conditioned query and to revisit them as the query evolves. This
+            position-symmetric access decouples logical reasoning from the physical position, order,
+            and distance of evidence, accounting for PARSER's robustness across all three controls.
           </figcaption>
         </figure>
-        <p class="analysis-summary">
-          Taken together, these experiments expose three manifestations of the same structural
-          bottleneck in sequential memory agents. All three failure modes arise from
-          capacity-limited, document-ordered recurrent compression. In contrast, at each reasoning
-          round, PARSER allows all subagents to inspect their respective chunks concurrently under
-          the same question-conditioned query and to revisit them as the query evolves. This
-          position-symmetric access decouples logical reasoning from the physical position, order,
-          and distance of evidence, accounting for PARSER's robustness across all three controls.
-        </p>
 
         <div class="subsection-heading">
           <span>03 / Inference efficiency</span>
