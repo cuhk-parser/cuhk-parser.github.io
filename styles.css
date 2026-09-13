@@ -226,6 +226,8 @@ html[lang="zh-CN"] .hero-thesis {
 .hero {
   margin-top: -72px;
   padding: 160px 0 92px;
+  position: relative;
+  overflow: hidden;
   text-align: center;
   background:
     radial-gradient(ellipse at 8% 0%, rgba(214, 190, 255, 0.32), transparent 46%),
@@ -657,6 +659,10 @@ html[lang="zh-CN"] .hero-thesis {
 .section {
   padding-block: 125px;
   scroll-margin-top: 70px;
+}
+
+#introduction {
+  background: #fff;
 }
 
 .section-heading {
